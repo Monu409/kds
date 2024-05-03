@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.danielfelgar:draw-receipt:0.1.3@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/aa14672eefeb870b60cdbad4e56f4735/transformed/jetified-draw-receipt-0.1.3/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/aa14672eefeb870b60cdbad4e56f4735/transformed/jetified-draw-receipt-0.1.3/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/aa14672eefeb870b60cdbad4e56f4735/transformed/jetified-draw-receipt-0.1.3/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.danielfelgar/draw-receipt/0.1.3/382e6497d003141d6c4341377a958a33cdb4604e/draw-receipt-0.1.3-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.danielfelgar/draw-receipt/0.1.3/c1a5a107f681dad0813bb13259932ec62614d1a0/draw-receipt-0.1.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

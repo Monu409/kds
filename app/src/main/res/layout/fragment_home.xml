@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="homeviewmodel"
+            type="com.zotto.kds.ui.home.HomeViewModel" />
+        <variable
+            name="adapter"
+            type="com.zotto.kds.adapter.OrderAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/order_recycleview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adapter="@{adapter}"
+            android:background="@color/colorHaiti"
+            android:padding="@dimen/_2sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/summary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/orders_row"
+            android:layout_weight=".77"/>
+
+
+        <include
+            android:id="@+id/summary"
+            layout="@layout/summary_dialog"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:homeviewmodel="@={homeviewmodel}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_weight=".23"/>
+
+    </LinearLayout>
+
+</layout>

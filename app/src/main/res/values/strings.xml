@@ -1,0 +1,80 @@
+<resources>
+    <string name="app_name">KDS</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_employee">Employees</string>
+    <string name="menu_drivers">Drivers</string>
+    <string name="login_with_zotto_account_txt">Login with your OPUS account</string>
+    <string name="username_txt">Username</string>
+    <string name="password_txt">Password</string>
+    <string name="login_txt">Login</string>
+    <string name="table_txt">Table</string>
+    <string name="order_txt">Order</string>
+    <string name="active_txt">Active orders</string>
+    <string name="completed_txt">Closed orders</string>
+    <string name="done_txt">Done</string>
+    <string name="summary_txt">Summary</string>
+    <string name="drink_txt">Drink</string>
+    <string name="dish_txt">Dish</string>
+    <string name="pizza_txt">Pizza</string>
+    <string name="call_waiter_txt">Call waiters to\nthe kitchen</string>
+    <string name="call_robot_txt">Call robot to\nthe kitchen</string>
+    <string name="sent_robot_txt">Sent robot to\ncharging</string>
+    <string name="go_back_txt">Go back</string>
+    <string name="recall_txt">Recall</string>
+    <string name="clear_all_txt">Clear all</string>
+    <string name="can_not_it_now_txt">Can not do it now?</string>
+    <string name="do_u_want_to_mark_txt">Do you want to mark Grilled Salmon unavailble?</string>
+    <string name="unavailable_txt">Yes, It is unavailable</string>
+    <string name="cancel_txt">Cancel</string>
+    <string name="logout_txt">Logout</string>
+    <string name="order_display_txt">Order display</string>
+    <string name="inshop_order_only_txt">In shop order only</string>
+    <string name="online_order_only_txt">Online order only</string>
+    <string name="all_txt">All</string>
+    <string name="product_display_txt">Product display</string>
+    <string name="breakfast_txt">Breakfast</string>
+    <string name="order_cooking_time_txt">Order cooking timer</string>
+    <string name="manual_timer_txt">Manual timer</string>
+    <string name="automatic_timer_txt">Automatic timer</string>
+    <string name="robot_delivery_txt">Robot delivery</string>
+    <string name="able_txt">Enable</string>
+    <string name="unable_txt">Disable</string>
+    <string name="printing_txt">Printing</string>
+    <string name="auto_print_txt">Auto print</string>
+    <string name="manual_print_txt">Manual print</string>
+    <string name="no_print_txt">No print</string>
+    <string name="save_change_txt">Save change</string>
+    <string name="close_without_saving_txt">Close without saving</string>
+    <string name="date_txt">Date :</string>
+    <string name="order_id_txt">Order Id :</string>
+    <string name="time_txt" >Time : </string>
+    <string name="logout_msg" >Are you sure you want to Logout?</string>
+    <string name="choose_device_txt">Choose Device</string>
+    <string-array name="delivery_time">
+        <item>1 minutes</item>
+        <item>3 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+        <item>90 minutes</item>
+        <item>120 minutes</item>
+    </string-array>
+    <string name="time_up">Time up!</string>
+    <string name="can_not_do_it_now_txt">Cannot do it now?</string>
+    <string name="do_you_want_to_mark_txt">Do you want to mark </string>
+    <string name="unavailble_txt">unavailble?</string>
+    <string name="yes_it_is_unavailble_txt">Yes, It is unavailable</string>
+    <string name="finished_order_txt">Finished Orders</string>
+    <string name="available_item_txt">Available Items</string>
+    <string name="unavailable_item_txt">Unavailable Items</string>
+    <string name="item_management_txt">Items management</string>
+    <string name="item_txt">Items</string>
+    <string name="enable_txt">Enable</string>
+    <string name="disable_txt">Disable</string>
+</resources>

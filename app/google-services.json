@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "731284745245",
+    "project_id": "new-kds",
+    "storage_bucket": "new-kds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:731284745245:android:114e2dccd40830eef56af4",
+        "android_client_info": {
+          "package_name": "com.zotto.kds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "731284745245-7nbfqv28g5p2coekr73583v7udnb9ts7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0U32HdOk11xzobnS5uzacPoWL-C1Nh0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "731284745245-7nbfqv28g5p2coekr73583v7udnb9ts7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

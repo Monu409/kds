@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:fontFamily="@font/roboto_medium"
+        android:text="1"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toStartOf="@+id/product_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_2sdp"
+        android:fontFamily="@font/roboto_medium"
+        android:textSize="@dimen/_8sdp"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/quantity"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/modifiers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDolphin"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="@dimen/_6sdp"
+        app:layout_constraintStart_toStartOf="@+id/product_name"
+        app:layout_constraintTop_toBottomOf="@+id/product_name" />
+    <TextView
+        android:id="@+id/topping_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorDolphin"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="@dimen/_6sdp"
+        app:layout_constraintStart_toStartOf="@+id/modifiers"
+        app:layout_constraintTop_toBottomOf="@+id/modifiers" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
