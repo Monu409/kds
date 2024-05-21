@@ -9,12 +9,12 @@
         android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_2sdp"
         android:layout_marginEnd="@dimen/_5sdp"
         android:fontFamily="@font/roboto_medium"
         android:text="1"
         android:textSize="@dimen/_8sdp"
+        android:layout_marginStart="5dp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toStartOf="@+id/product_name"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:id="@+id/product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="@dimen/_2sdp"
         android:fontFamily="@font/roboto_medium"
         android:textSize="@dimen/_8sdp"
@@ -38,16 +38,22 @@
         android:textColor="@color/colorDolphin"
         android:fontFamily="@font/roboto_regular"
         android:textSize="@dimen/_6sdp"
-        app:layout_constraintStart_toStartOf="@+id/product_name"
+        android:layout_marginStart="5dp"
+        android:text="dsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgf"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/product_name" />
+
     <TextView
         android:id="@+id/topping_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorDolphin"
         android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/colorDolphin"
         android:textSize="@dimen/_6sdp"
-        app:layout_constraintStart_toStartOf="@+id/modifiers"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="dsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgfdsfs dsfdfds fsdgfsdd fdsgfsgfdgdfgf"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modifiers" />
 
 

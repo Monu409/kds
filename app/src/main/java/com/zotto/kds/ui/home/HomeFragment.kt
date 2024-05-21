@@ -15,16 +15,17 @@ import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.zotto.kds.R
-import com.zotto.kds.`interface`.OrderBroadcastReciever
 import com.zotto.kds.adapter.CompletedOrderAdapter
 import com.zotto.kds.adapter.OrderAdapter
 import com.zotto.kds.adapter.SummaryAdapter
@@ -35,6 +36,7 @@ import com.zotto.kds.database.dao.ProductDao
 import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Product
 import com.zotto.kds.databinding.FragmentHomeBinding
+import com.zotto.kds.`interface`.OrderBroadcastReciever
 import com.zotto.kds.model.Summary
 import com.zotto.kds.printing.HPRTPrinterPrinting
 import com.zotto.kds.rabbitmq.Config
@@ -45,7 +47,6 @@ import com.zotto.kds.ui.dialog.ProductUnavailable
 import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
 import com.zotto.kds.utils.Singleton
-import org.json.JSONObject
 import java.util.*
 
 class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
@@ -165,8 +166,8 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             orderAdapter = OrderAdapter(requireActivity()!!, this@HomeFragment)
-            order_recycleview!!.layoutManager =
-              GridLayoutManager(context,3)
+//            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
+            order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
             order_recycleview!!.setItemAnimator(DefaultItemAnimator())
             order_recycleview!!.setHasFixedSize(true)
           }
@@ -205,8 +206,8 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             orderAdapter = null
             completedorderAdapter =
               CompletedOrderAdapter(it, requireActivity()!!, this@HomeFragment)
-            order_recycleview!!.layoutManager =
-              GridLayoutManager(context,3)
+//            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
+            order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
             order_recycleview!!.setItemAnimator(DefaultItemAnimator())
             order_recycleview!!.setHasFixedSize(true)
           }
@@ -225,7 +226,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
         e.printStackTrace()
       }
     })
-    homeViewModel!!.productlivedata.observe(viewLifecycleOwner, Observer {
+    homeViewModel!!.productlivedata.observe(viewLifecycleOwner) {
 
       summary_layout!!.removeAllViews()
       dishList = ArrayList()
@@ -237,15 +238,15 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
         for (product in it) {
           if (!product.status.equals("Ready")) {
 
-                if (product.type.equals("Dishes")) {
-                  createSummary(product, dishList)
-                }
-                if (product.type.equals("Drinks")) {
-                  createSummary(product, drinkList)
-                }
-                if (product.type.equals("Pizza")) {
-                  createSummary(product, pizzaList)
-                }
+            if (product.type.equals("Dishes")) {
+              createSummary(product, dishList)
+            }
+            if (product.type.equals("Drinks")) {
+              createSummary(product, drinkList)
+            }
+            if (product.type.equals("Pizza")) {
+              createSummary(product, pizzaList)
+            }
 
           }
         }
@@ -269,17 +270,16 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
           allData.add("Pizza")
           allData.addAll(pizzaList!!)
         }
-        if (allData.size > 0) {
-          intiateRecycleview(allData)
-        }
+//        if (allData.size > 0) {
+        intiateRecycleview(allData)
+//        }
       } catch (e: Exception) {
         e.printStackTrace()
       } catch (e: NullPointerException) {
         e.printStackTrace()
       }
 
-
-    })
+    }
     val orderBroadcastReceiver = OrderBroadcastReciever(homeRepository!!)
     val intentFilter = IntentFilter()
     intentFilter.addAction(Config.ORDER_NOTIFICATION)
@@ -408,7 +408,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
       order.order_status!!,
       order.order_time!!,
       order.order_time!!,
-      order.rname?:"",
+      order.rname ?: "",
       order.order_time!!,
       order
     )
@@ -441,18 +441,20 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
         homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner, Observer {
           orderAdapter!!.submitList(it!!)
         })
+//        orderAdapter!!.submitList(null)
+        homeViewModel!!.getAllOrderFromLocal()
       }
     }
   }
 
   override fun updateProduct(product: Product) {
     homeViewModel!!.updateProduct(
-      product.product_id?:"",
-      product.serial_no?:"",
-      product.order_id?:"",
-      product.status?:"",
-      product.timestamp?:"",
-      product.name?:"",
+      product.product_id ?: "",
+      product.serial_no ?: "",
+      product.order_id ?: "",
+      product.status ?: "",
+      product.timestamp ?: "",
+      product.name ?: "",
       "",
       "",
       product
@@ -491,7 +493,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
         order.rname!!,
         order.order_time!!,
         order
-      )!!, order.order_id!!,order
+      )!!, order.order_id!!, order
     )
     if (completedorderAdapter != null) {
       completedorderAdapter!!.notifyItemChanged(position)
@@ -499,7 +501,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
   }
 
   fun createSummary(product: Product, dataArray: ArrayList<Summary>?): Summary {
-    var summary: Summary? = dataArray!!.find { it.name.equals(product.name) }
+    var summary: Summary? = dataArray!!.find { it.name.equals(product.name) && it.fmname.equals(product.fmname)  && it.omname.equals(product.omname) }
     if (summary != null) {
       summary.quantity = summary.quantity!! + product.quantity!!
     } else {
@@ -599,7 +601,6 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
       obj1.status!!.compareTo(obj2.status!!)
     })
   }
-
 
   fun intiateRecycleview(productlist: ArrayList<Any>) {
     val summary_recyclerView = RecyclerView(requireActivity())

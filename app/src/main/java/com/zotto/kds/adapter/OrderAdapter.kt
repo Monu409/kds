@@ -60,10 +60,9 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
           } else {
             table_name.text = "Quick Serve"
           }
-
         }
       } else {
-        table_name.text = order.order_location
+        table_name.text = order.delivery_option!!.replace("_"," ")
       }
 
       if (order.order_from != null) {
@@ -75,20 +74,22 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 
       order_id.text =
         "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
-      if (order.delivery_firstname.isNullOrEmpty() || order.delivery_lastname.isNullOrEmpty()) {
+      if (order.delivery_firstname.isNullOrEmpty() && order.delivery_lastname.isNullOrEmpty()) {
         customer_name.text = "Guest"
       } else {
         customer_name.text = order.delivery_firstname + " " + order.delivery_lastname
       }
 
-      preparing_time.text = order.order_time?.removeRange(5,8) ?: ""
+      if(order.order_time?.length!! > 5){
+        preparing_time.text = order.order_time?.removeRange(5,8) ?: ""
+      }
       product_recyclerView!!.layoutManager = LinearLayoutManager(
         context,
         LinearLayoutManager.VERTICAL,
         false
       )
       product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
-      var productAdapter = ProductAdpter(order.products!!, context!!, this)
+      var productAdapter = ProductAdpter(order.products!!, context!!)
       productAdapter.submitList(order.products!!)
       product_recyclerView!!!!.adapter = productAdapter
       productAdapter!!.notifyDataSetChanged()
@@ -123,7 +124,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
   override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
     var order = getItem(position)
     if (order != null) {
-      holder.bindData(order!!)
+      holder.bindData(order)
     }
     val r = Random()
     val red: Int = r.nextInt(255 - 0 + 1) + 0
@@ -134,7 +135,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     holder.order_header.setBackground(draw)
     holder.order_header.setOnClickListener {
       order!!.order_status = "Ready"
-      orderOnClickListner!!.updateOrder(position, order)
+      orderOnClickListner.updateOrder(position, order)
     }
   }
 

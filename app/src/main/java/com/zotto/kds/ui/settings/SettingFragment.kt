@@ -12,6 +12,7 @@ import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.zotto.kds.R
 import com.zotto.kds.database.table.DeviceTable
 import com.zotto.kds.restapi.ApiServices
@@ -272,6 +273,15 @@ class SettingFragment : AppCompatActivity() {
   }
 
   private fun onResponse(response: GenericResponse<List<DeviceTable>>) {
+    var defaultItems: MutableList<String> = ArrayList()
+    val gson = Gson()
+    val listType = object : TypeToken<ArrayList<String>>() {}.type
+    var alreadySelected: String? = SessionManager.getDeviceName(this@SettingFragment)
+    if(alreadySelected!!.isNotEmpty()){
+      val iItemList: ArrayList<String> = gson.fromJson(alreadySelected,listType)
+      Log.e("bgxdfg",iItemList.toString())
+      defaultItems = iItemList
+    }
     deviceItems = ArrayList()
     Log.e("DeviceModel onResponse", "${response}")
     try {
@@ -284,33 +294,34 @@ class SettingFragment : AppCompatActivity() {
 
           device_spnr!!.setItems(
             deviceItems,
-            "Select Device",
-            object : MultiSpinnerListener {
-              override fun onItemsSelected(selected: Array<Boolean>) {
-                val slectedIps: MutableList<String> = ArrayList()
-                val slectedPorts: MutableList<String> = ArrayList()
-                for (i in selected.indices) {
-                  if (selected[i] && deviceItems.get(i).port != null) {
-                    slectedIps.add(deviceItems.get(i).ip_address!!)
-                    slectedPorts.add(deviceItems.get(i).port!!)
-                  }
-                }
-                val gson = Gson()
-
-//                Log.e("ips", "" + gson.toJson(slectedIps))
-//                SessionManager.setSelectedIp(this@SettingFragment, gson.toJson(slectedIps))
-//                SessionManager.setSelectedPort(this@SettingFragment, gson.toJson(slectedPorts))
-
-                var ipAddress = gson.fromJson(
-                  getSelectedIp(this@SettingFragment),
-                  java.util.ArrayList::class.java
-                )
-
-
-                Log.e("ips", "" + ipAddress)
-                print(ipAddress)
+            defaultItems,
+            "Select Device"
+          ) { selected ->
+            val slectedIps: MutableList<String> = ArrayList()
+            val slectedPorts: MutableList<String> = ArrayList()
+            val slectedNames: MutableList<String> = ArrayList()
+            for (i in selected.indices) {
+              if (selected[i] && deviceItems.get(i).port != null) {
+                slectedIps.add(deviceItems.get(i).ip_address!!)
+                slectedPorts.add(deviceItems.get(i).port!!)
+                slectedNames.add(deviceItems.get(i).device_name!!)
               }
-            })
+            }
+            val gson = Gson()
+
+            //                Log.e("ips", "" + gson.toJson(slectedIps))
+            SessionManager.setDeviceName(this@SettingFragment, gson.toJson(slectedNames))
+            //                SessionManager.setSelectedPort(this@SettingFragment, gson.toJson(slectedPorts))
+
+            var ipAddress = gson.fromJson(
+              getSelectedIp(this@SettingFragment),
+              java.util.ArrayList::class.java
+            )
+
+
+            Log.e("ips", "" + ipAddress)
+            print(ipAddress)
+          }
 
 //          device_spnr?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //            override fun onNothingSelected(parent: AdapterView<*>?) {

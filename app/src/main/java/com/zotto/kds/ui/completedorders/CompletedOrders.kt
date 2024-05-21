@@ -3,6 +3,7 @@ package com.zotto.kds.ui.completedorders
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.zotto.kds.R
 import com.zotto.kds.adapter.CompletedOrderAdapter
 import com.zotto.kds.adapter.OrderAdapter
@@ -69,8 +71,9 @@ class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderO
         binding!!.completedOrderViewModel= completedOrderViewModel
          binding!!.lifecycleOwner=this
        order_recycleview = binding!!.orderRecycleview
-        order_recycleview!!.layoutManager = GridLayoutManager(this,3 )
-//        order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
+//        order_recycleview!!.layoutManager = GridLayoutManager(this,3 )
+        order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
+        order_recycleview!!.layoutDirection = View.LAYOUT_DIRECTION_RTL
         order_recycleview!!.setItemAnimator(DefaultItemAnimator())
         order_recycleview!!.setHasFixedSize(true)
         order_recycleview!!.adapter = completedorderAdapter

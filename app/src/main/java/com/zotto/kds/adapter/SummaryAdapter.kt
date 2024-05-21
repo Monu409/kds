@@ -16,10 +16,10 @@ class SummaryAdapter(var productList: List<Any>, val context: Context) :
   val VIEW_TYPE_ITEM = 1
   val VIEW_TYPE_HEADER = 0
   var fmname = ""
-  var omname = ""
-  var toppingname = ""
+  //  var omname = ""
+//  var toppingname = ""
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-    var view: View? = null
+    var view: View?
     if (viewType == VIEW_TYPE_ITEM) {
       view = LayoutInflater.from(parent.getContext()).inflate(R.layout.summary_row, parent, false)
       return MyViewHolder(view)
@@ -31,24 +31,37 @@ class SummaryAdapter(var productList: List<Any>, val context: Context) :
     throw RuntimeException("There is no type that matches the type " + viewType + ". Make sure you are using view types correctly!");
   }
 
+  fun updateList(productList: List<Any>) {
+    this.productList = productList
+    notifyDataSetChanged()
+  }
+
   override fun getItemCount(): Int {
     return productList.size
   }
 
   override fun getItemViewType(position: Int): Int {
-    if (productList.get(position) is String) return VIEW_TYPE_HEADER
-    else return VIEW_TYPE_ITEM
+    if (productList.get(position) is String)
+//    if (isPositionHeader(position))
+      return VIEW_TYPE_HEADER
+    else
+      return VIEW_TYPE_ITEM
 
   }
 
+  private fun isPositionHeader(position: Int): Boolean {
+    return position == 0
+  }
+
   override fun onBindViewHolder(
-    holder: RecyclerView.ViewHolder, @SuppressLint("RecyclerView") position: Int
+    holder: RecyclerView.ViewHolder,
+    @SuppressLint("RecyclerView") position: Int
   ) {
 
     if (holder is HeaderViewHolder) {
       holder.header.text = productList.get(position).toString()
     } else if (holder is MyViewHolder) {
-      var product = productList.get(position) as Summary// yha pe crash hota hai kabhi kabhi
+      var product = productList.get(position) as Summary
       holder.product_name.text = product.name
       holder.quantity.text = product.quantity.toString()
 //      Log.e("quantity=", product.quantity!!.toString())
@@ -64,11 +77,13 @@ class SummaryAdapter(var productList: List<Any>, val context: Context) :
           fmname += product.fmname
         }
         if (!product.detourname.isNullOrEmpty()) {
-          if (fmname.isEmpty()) fmname += product.detourname
+          if (fmname.isEmpty())
+            fmname += product.detourname
           else fmname += "\n" + product.detourname
         }
         if (!product.omname.isNullOrEmpty()) {
-          if (fmname.isEmpty()) fmname += product.omname
+          if (fmname.isEmpty())
+            fmname += product.omname
           else fmname += "\n" + product.omname
         }
         if (fmname.isEmpty()) {
@@ -97,10 +112,10 @@ class SummaryAdapter(var productList: List<Any>, val context: Context) :
   }
 
   class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
     var product_name = itemView.findViewById<TextView>(R.id.product_name)
     var quantity = itemView.findViewById<TextView>(R.id.quantity)
     var modifiersname = itemView.findViewById<TextView>(R.id.modifiers)
     var topping_name = itemView.findViewById<TextView>(R.id.topping_name)
   }
+
 }

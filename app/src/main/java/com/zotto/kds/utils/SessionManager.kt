@@ -34,6 +34,7 @@ class SessionManager {
     private val DEVICE_ID = "device_id"
     private val SELECTED_IP = "selected_ip"
     private val SELECTED_PORT = "selected_port"
+    private val SELECTED_DEVICE = "selected_device"
 
     fun getToken(context: Context?): String? {
       return getDefaultPref(context!!)!!.getString(TOKEN, "")
@@ -113,6 +114,16 @@ class SessionManager {
     @JvmStatic  fun setSelectedIp(context: Context?, laguage: String?) {
       val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
       editor.putString(SELECTED_IP, laguage)
+      editor.commit()
+    }
+
+    @JvmStatic  fun getDeviceName(context: Context?): String? {
+      return getDefaultPref(context!!)!!.getString(SELECTED_DEVICE, "")
+    }
+
+    @JvmStatic  fun setDeviceName(context: Context?, laguage: String?) {
+      val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
+      editor.putString(SELECTED_DEVICE, laguage)
       editor.commit()
     }
 

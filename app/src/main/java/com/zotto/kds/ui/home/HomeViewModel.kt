@@ -1,6 +1,8 @@
 package com.zotto.kds.ui.home
 
+import android.annotation.SuppressLint
 import android.util.Log
+import androidx.lifecycle.ComputableLiveData
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +20,6 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
   val productlivedata: LiveData<List<Product>> get() = productListMutableLiveData!!
 
   init {
-
     val config = PagedList.Config.Builder()
       .setEnablePlaceholders(true)
       .setPrefetchDistance(0)
@@ -49,7 +50,6 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
     if (Singleton.ordertype.equals("active")) {
       var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()
       if (!allActiveOrder.isNullOrEmpty()) {
-//        if (!Singleton.isactiveclicked) {
         Singleton.isactiveclicked = false
         var products: ArrayList<Product>? = ArrayList()
         for (order in allActiveOrder) {
@@ -58,15 +58,20 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
           Log.e("getProducts data=", "$products")
           productListMutableLiveData!!.postValue(products)
         }
+      } else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
+        productListMutableLiveData!!.postValue(emptyList())
       }
     } else if (Singleton.ordertype.equals("completed")) {
-      if (homeRepository.orderDao.getAllCompletedOrder()!!.isNotEmpty()) {
+      var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllCompletedOrder()
+      if (!allActiveOrder.isNullOrEmpty()) {
         if (!Singleton.isactiveclicked) {
           Singleton.isactiveclicked = false
           productListMutableLiveData!!.postValue(
-            homeRepository.orderDao.getAllCompletedOrder()!![0].products
+            allActiveOrder[0].products
           )
         }
+      } else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
+        productListMutableLiveData!!.postValue(emptyList())
       }
     }
 
@@ -126,7 +131,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
         rname,
         ptime,
         order
-      )!!, orderid,order
+      )!!, orderid, order
     )
   }
 

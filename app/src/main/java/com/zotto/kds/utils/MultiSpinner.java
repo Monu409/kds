@@ -211,21 +211,17 @@ public class MultiSpinner extends AppCompatSpinner implements DialogInterface.On
         this.items = items;
         this.defaultText = allText;
         this.listener = listener;
-
-        // all selected by default
-//        selected = new Boolean[items.size()];
         selected = new ArrayList<Boolean>(Collections.nCopies(items.size(), false));
-        Collections.fill(selected, false);
+        if(last_selected.size()>0) {
+            Collections.fill(selected, false);
+        }
         move_selected_Top(items, last_selected);
-//        for (int i = 0; i < selected.length; i++) {
-//            if (last_selected != null)
-//                selected[i] = last_selected.contains(items.get(i).toString().trim());
-//        }
-        // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spiner_tv, R.id.spnr_text, new String[]{allText});
         adapter.setDropDownViewResource(R.layout.spiner_item);
         setAdapter(adapter);
-        setSelected_Text();
+        if(last_selected.size()>0) {
+            setSelected_Text();
+        }
     }
 
     public void setItems(List items, String allText, MultiSpinnerListener listener) {
@@ -234,10 +230,6 @@ public class MultiSpinner extends AppCompatSpinner implements DialogInterface.On
         this.listener = listener;
         selected = new ArrayList<Boolean>(Collections.nCopies(items.size(), false));
         Collections.fill(selected, false);
-//        for (int i = 0; i < selected.length; i++)
-//            selected[i] = false;
-
-        // all text on the spinner
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spiner_tv, R.id.spnr_text, new String[]{allText});
         adapter.setDropDownViewResource(R.layout.spiner_item);
         setAdapter(adapter);
