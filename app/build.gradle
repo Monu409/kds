@@ -1,0 +1,96 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
+android {
+    compileSdk 31
+    defaultConfig {
+        applicationId "com.zotto.kds"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0.1.15"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+    namespace 'com.zotto.kds'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.databinding:databinding-runtime:4.2.2'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation ("com.intuit.sdp:sdp-android:1.0.5")
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+    implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
+    //Rx
+    implementation "io.reactivex.rxjava2:rxjava:2.2.0"
+    implementation "io.reactivex.rxjava2:rxandroid:2.1.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation ("com.squareup.retrofit2:converter-jackson:2.9.0")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation ("com.squareup.retrofit2:converter-scalars:2.3.0")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    //Firebase crashlystics and analytics
+    implementation platform('com.google.firebase:firebase-bom:30.5.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    //hprt printer sdk
+    implementation files('libs/Android_Print_SDK_ESC_V1.18.jar')
+    implementation files('libs/rabbitmq-client.jar')
+    //Image Reciept SDK
+    implementation 'com.github.danielfelgar:draw-receipt:0.1.3'
+    // Room components
+    implementation "androidx.room:room-ktx:$rootProject.room_version"
+    implementation("androidx.room:room-runtime:$rootProject.room_version")
+    annotationProcessor("androidx.room:room-compiler:$rootProject.room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$rootProject.room_version")
+    // optional - RxJava2 support for Room
+    implementation("androidx.room:room-rxjava2:$rootProject.room_version")
+    // optional - Test helpers
+    testImplementation("androidx.room:room-testing:$rootProject.room_version")
+    //config data binding compiler with kotlin
+    kapt 'com.android.databinding:compiler:3.1.1'
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    //circularimage sdk
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    //Paging-Library
+    implementation "android.arch.paging:runtime:1.0.1"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+}

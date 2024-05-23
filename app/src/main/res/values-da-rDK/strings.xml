@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">KDS</string>
+    <string name="navigation_drawer_open">Åbn navigationsskuffen</string>
+    <string name="navigation_drawer_close">Luk navigationsskuffen</string>
+    <string name="nav_header_desc">Navigationshoved</string>
+    <string name="action_settings">Indstillinger</string>
+    <string name="menu_setting">Indstilling</string>
+    <string name="menu_employee">Medarbejdere</string>
+    <string name="menu_drivers">Chauffører</string>
+    <string name="login_with_zotto_account_txt">Log ind med din Zotto-konto</string>
+    <string name="username_txt">Brugernavn</string>
+    <string name="password_txt">Adgangskode</string>
+    <string name="login_txt">Log på</string>
+    <string name="table_txt">Bord</string>
+    <string name="order_txt">Bestille</string>
+    <string name="active_txt">Aktiv ordrer</string>
+    <string name="completed_txt">Lukkede ordrer</string>
+    <string name="done_txt">Færdig</string>
+    <string name="summary_txt">Resumé</string>
+    <string name="drink_txt">Drikke</string>
+    <string name="dish_txt">Fad</string>
+    <string name="pizza_txt">Pizza</string>
+    <string name="call_waiter_txt">Kald tjenere til køkkenet</string>
+    <string name="call_robot_txt">Kald robot til køkkenet</string>
+    <string name="sent_robot_txt">Sendte robot til opladning</string>
+    <string name="go_back_txt">Gå tilbage</string>
+    <string name="recall_txt">Minde om</string>
+    <string name="clear_all_txt">Slet alt</string>
+    <string name="can_not_it_now_txt">Kan du ikke gøre det nu?</string>
+    <string name="do_u_want_to_mark_txt">Vil du markere grillet laks som utilgængelig?</string>
+    <string name="unavailable_txt">Ja, den er ikke tilgængelig</string>
+    <string name="cancel_txt">Afbestille</string>
+    <string name="logout_txt">Log ud</string>
+    <string name="order_display_txt">Ordredisplay</string>
+    <string name="inshop_order_only_txt">Kun i butiksbestilling</string>
+    <string name="online_order_only_txt">Kun online bestilling</string>
+    <string name="all_txt">Alle</string>
+    <string name="product_display_txt">Produkt display</string>
+    <string name="breakfast_txt">Morgenmad</string>
+    <string name="order_cooking_time_txt">Bestil kogetimer</string>
+    <string name="manual_timer_txt">Manuel timer</string>
+    <string name="automatic_timer_txt">Automatisk timer</string>
+    <string name="robot_delivery_txt">Robot levering</string>
+    <string name="able_txt">I stand</string>
+    <string name="unable_txt">Ude af stand</string>
+    <string name="printing_txt">Trykning</string>
+    <string name="auto_print_txt">Auto print</string>
+    <string name="manual_print_txt">Manuel print</string>
+    <string name="no_print_txt">Intet tryk</string>
+    <string name="save_change_txt">Gem ændring</string>
+    <string name="close_without_saving_txt">Luk uden at gemme</string>
+    <string name="date_txt">Dato :</string>
+    <string name="order_id_txt">Ordre ID :</string>
+    <string name="time_txt" >Tid : </string>
+    <string name="logout_msg" >vil du  log ud?</string>
+
+    <string name="choose_device_txt">Vælg Enhed</string>
+    <string-array name="delivery_time">
+        <item>1 minutes</item>
+        <item>3 minutes</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>20 minutes</item>
+        <item>30 minutes</item>
+        <item>60 minutes</item>
+        <item>90 minutes</item>
+        <item>120 minutes</item>
+    </string-array>
+    <string name="time_up">Time up!</string>
+    <string name="can_not_do_it_now_txt">Kan du ikke gøre det nu?</string>
+    <string name="do_you_want_to_mark_txt">Vil du markere </string>
+    <string name="unavailble_txt">ikke tilgængelig?</string>
+    <string name="yes_it_is_unavailble_txt">Ja, den er ikke tilgængelig</string>
+    <string name="finished_order_txt">Færdige ordrer</string>
+    <string name="available_item_txt">Tilgængelige varer</string>
+    <string name="unavailable_item_txt">Utilgængelige varer</string>
+    <string name="item_management_txt">Varehåndtering</string>
+    <string name="item_txt">Items</string>
+    <string name="enable_txt">Aktiver</string>
+    <string name="disable_txt">Deaktiver</string>
+</resources>

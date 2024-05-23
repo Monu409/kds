@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="mainviewmodel"
+            type="com.zotto.kds.ui.main.MainViewModel" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <include
+            android:id="@+id/app_bar_main"
+            app:mainviewmodel="@={mainviewmodel}"
+            layout="@layout/home_content_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.navigation.NavigationView
+            android:layout_marginBottom="60dp"
+            android:id="@+id/nav_view"
+            android:background="@color/colorHaiti"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:itemTextAppearance="@style/NavigationDrawerStyle"
+            app:headerLayout="@layout/nav_header_main"
+            app:itemTextColor="@color/white"
+            app:itemIconTint="@android:color/white"
+            app:itemIconSize="@dimen/_10sdp"
+            app:menu="@menu/activity_main_drawer">
+
+
+            <RelativeLayout
+                android:id="@+id/logout"
+                android:background="@color/colorHaiti"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:id="@+id/logout_ic"
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    app:srcCompat="@drawable/logout"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/logout_ic"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_8sdp"
+                    android:text="Logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
+        </com.google.android.material.navigation.NavigationView>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
