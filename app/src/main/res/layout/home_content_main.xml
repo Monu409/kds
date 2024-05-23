@@ -45,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
+
                 <TextView
                     android:id="@+id/active_orders"
                     android:layout_width="wrap_content"
@@ -58,6 +59,24 @@
                     android:text="@string/active_txt"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_10sdp" />
+
+                <TextView
+                    android:id="@+id/refresh_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_toLeftOf="@+id/completed_orders"
+                    android:background="@drawable/rectangular_roundshape_pigeon_post"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="@string/refresh_txt"
+                    android:textColor="@color/colorBalticSea"
+                    android:textSize="@dimen/_10sdp" />
+
 
                 <TextView
                     android:id="@+id/completed_orders"

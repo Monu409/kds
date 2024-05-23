@@ -13,7 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginBottom="@dimen/_10sdp"
         android:layout_alignParentTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -120,5 +119,16 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
+        <TextView
+            android:id="@+id/make_order_new"
+            android:layout_width="match_parent"
+            android:text="Make it New"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:padding="2dp"
+            android:textSize="@dimen/_8sdp"
+            android:background="@color/cornFlowerBlue"/>
     </LinearLayout>
 </RelativeLayout>

@@ -16,6 +16,7 @@ import com.zotto.kds.R
 import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Product
 import com.zotto.kds.utils.Singleton
+import org.w3c.dom.Text
 
 class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var completedOrderOnClickListner:CompletedOrderOnClickListner) :
     ListAdapter<Order, CompletedOrderAdapter.MyViewHolder>(DiffUtil()){
@@ -31,6 +32,7 @@ class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var
         var preparing_time= itemView.findViewById<TextView>(R.id.preparing_time)
         var product_recyclerView=itemView.findViewById<RecyclerView>(R.id.product_recyclerView)
         var recall_order=itemView.findViewById<ImageView>(R.id.recall_order)
+        var makeOrderNew=itemView.findViewById<TextView>(R.id.make_order_new)
         fun bindData(order: Order){
             if (order.order_location.equals("pos")){
                 if (!order.pos_table_name.isNullOrEmpty()){
@@ -85,6 +87,11 @@ class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var
         holder.bindData(order)
         holder.recall_order.setOnClickListener {
             order.order_status="Confirm"
+            completedOrderOnClickListner.reecallOrder(position,order)
+        }
+
+        holder.makeOrderNew.setOnClickListener{
+            order.order_status="New"
             //Singleton.ordertype="active"
             completedOrderOnClickListner.reecallOrder(position,order)
         }

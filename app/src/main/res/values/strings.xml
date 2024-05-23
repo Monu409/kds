@@ -15,6 +15,7 @@
     <string name="order_txt">Order</string>
     <string name="active_txt">Active orders</string>
     <string name="completed_txt">Closed orders</string>
+    <string name="refresh_txt">Refresh</string>
     <string name="done_txt">Done</string>
     <string name="summary_txt">Summary</string>
     <string name="drink_txt">Drink</string>

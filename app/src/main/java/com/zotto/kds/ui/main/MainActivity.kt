@@ -142,6 +142,19 @@ class MainActivity : AppCompatActivity() {
         rotateForward = AnimationUtils.loadAnimation(this, com.zotto.kds.R.anim.rotate_forward)
         rotateBackward = AnimationUtils.loadAnimation(this, com.zotto.kds.R.anim.rotate_backward)
 
+        binding!!.appBarMain.refreshTxt.setOnClickListener{
+//            finish();
+//            startActivity(intent);
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    com.zotto.kds.R.id.root_container,
+                    HomeFragment(),
+                    HomeFragment::class.java.simpleName
+                )
+                .commit()
+        }
+
         binding!!.appBarMain.robotoFab.visibility = View.GONE
         binding!!.appBarMain.waiterFab.visibility = View.GONE
         binding!!.appBarMain.chargingFab.visibility = View.GONE
