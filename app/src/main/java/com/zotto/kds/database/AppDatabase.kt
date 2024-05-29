@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.zotto.kds.database.dao.*
 import com.zotto.kds.database.table.*
 
-@Database(entities = arrayOf(Restaurant::class,Order::class,Product::class,ForcedModifier::class,
+@Database(entities = arrayOf(Restaurant::class,Order::class,Product::class,ForcedModifier::class,DisabledTable::class, CategoryTable::class,
     OptionalModifier::class,Base::class,Topping::class,Detour::class,DetourOm::class), version = 9, exportSchema = false)
 @TypeConverters(Converters::class,ForcedModifierConverters::class,OptionalModifierConverter::class,
     BaseConverters::class,ToppingConverters::class,DetourConverters::class,DetourOmConverters::class)
@@ -29,6 +29,9 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun forcedModifierDao(): ForcedModifierDao?
 
     abstract fun optionalModifierDao(): OptionalModifierDao?
+
+    abstract fun disableProductDao(): DisabledCategoryDao?
+    abstract fun categoryDao(): CategoryDao?
 
     abstract fun baseDao(): BaseDao?
 

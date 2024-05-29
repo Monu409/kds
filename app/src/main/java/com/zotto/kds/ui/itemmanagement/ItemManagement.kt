@@ -1,62 +1,110 @@
 package com.zotto.kds.ui.itemmanagement
 
 import android.os.Bundle
-import android.widget.ImageView
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.zotto.kds.R
 import com.zotto.kds.adapter.ItemManagementAdapter
 import com.zotto.kds.database.AppDatabase
 import com.zotto.kds.database.DatabaseClient
+import com.zotto.kds.database.dao.CategoryDao
+import com.zotto.kds.database.dao.DisabledCategoryDao
 import com.zotto.kds.database.dao.OrderDao
-import com.zotto.kds.database.dao.ProductDao
+import com.zotto.kds.database.table.CategoryTable
 import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Product
 import com.zotto.kds.databinding.ItemManagementBinding
-import com.zotto.kds.model.Summary
 import com.zotto.kds.repository.ItemManagementRepository
+import com.zotto.kds.restapi.ApiServices
+import com.zotto.kds.restapi.RetroClient
+import com.zotto.kds.ui.main.MainActivity
+import com.zotto.kds.utils.SessionManager
+import com.zotto.kds.utils.Singleton
 
 class ItemManagement : AppCompatActivity() {
   companion object {
-    private var binding: ItemManagementBinding? = null
+    var binding: ItemManagementBinding? = null
+    lateinit var restId: String
     var itemManagementViewModel: ItemManagementViewModel? = null
     var appDatabase: AppDatabase? = null
-    var orderDao: OrderDao? = null
-    var productDao: ProductDao? = null
+    var allData: List<Product>? = null
+    var allCatData: List<CategoryTable>? = null
+    private var recyclerView: RecyclerView? = null
+    var sectionDataList: ArrayList<Any> = ArrayList()
+    var disabledProductDao: DisabledCategoryDao? = null
+    var categoryDao: CategoryDao? = null
     var itemManagementAdapter: ItemManagementAdapter? = null
-    var dishList: ArrayList<Summary>? = null
-    var drinkList: ArrayList<Summary>? = null
-    var pizzaList: ArrayList<Summary>? = null
+    var typeList: List<String>? = null
     var orderList = ArrayList<Order>()
     var productList = ArrayList<Product>()
     var itemManagementRepository: ItemManagementRepository? = null
-    var dishqty = 0
-    var isDishes = true
-    var isDrink = true
-    var isPizza = true
+  }
+
+  fun onClickEvent() {
+    Log.e("onClickEvent", " Clicked now")
   }
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     binding = DataBindingUtil.setContentView(this, R.layout.item_management)
+    binding!!.lifecycleOwner = this
+    restId = SessionManager.getRestaurantId(this)
     appDatabase = DatabaseClient.getInstance(this)!!.getAppDatabase()
-    orderDao = appDatabase!!.orderDao()
-    productDao = appDatabase!!.productDao()
-    itemManagementRepository = ItemManagementRepository(this, orderDao!!)
+    disabledProductDao = appDatabase!!.disableProductDao()
+    var orderDao: OrderDao? = appDatabase!!.orderDao()
+    categoryDao = appDatabase!!.categoryDao()
+    var apiServices: ApiServices? = RetroClient.getApiService()
+    itemManagementRepository = ItemManagementRepository(this, apiServices!!, categoryDao!!)
+
     itemManagementViewModel = ViewModelProvider(
       this, ItemManagementViewModelFactory(
         itemManagementRepository!!
       )
     ).get(ItemManagementViewModel::class.java)
-    binding!!.lifecycleOwner = this
-    dishList = ArrayList()
-    drinkList = ArrayList()
-    pizzaList = ArrayList()
+    binding!!.viewModel = itemManagementViewModel
+    binding!!.itemPage = this
+    recyclerView = binding!!.recyclerView
+    typeList = ArrayList()
+
     orderList = ArrayList()
-    productList = ArrayList<Product>()
-    findViewById<ImageView>(R.id.back_btn).setOnClickListener {
-      onBackPressed()
+    productList = ArrayList()
+
+    itemManagementAdapter = ItemManagementAdapter(restId, this, disabledProductDao)
+    val layoutManager = GridLayoutManager(this, 2)
+
+    layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+      override fun getSpanSize(position: Int): Int {
+        return if (itemManagementAdapter!!.getItemViewType(position) == itemManagementAdapter!!.VIEW_TYPE_HEADER) 2 else 1
+      }
+    }
+
+    binding!!.recyclerView.layoutManager = layoutManager
+    binding!!.recyclerView.adapter = itemManagementAdapter
+    binding!!.backBtn.setOnClickListener {
+      if (MainActivity.refreshFragment) {
+        orderDao!!.updateALlDisableOrder()
+      }
+      Singleton.ordertype = "active"
+      Singleton.isactiveclicked = true
+      finish()
+    }
+
+    itemManagementViewModel!!.categorylivedata.observe(this) {
+      Log.e("observe data", " ${it}")
+      allCatData = it
+      setUpCatList(allCatData!!)
+    }
+
+  }
+
+  fun setUpCatList(items: List<CategoryTable>) {
+    if (itemManagementAdapter != null) {
+      itemManagementAdapter!!.submitList(items)
+      itemManagementAdapter!!.notifyDataSetChanged()
     }
   }
 }

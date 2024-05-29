@@ -1,5 +1,6 @@
 package com.zotto.kds.restapi
 
+import com.zotto.kds.database.table.CategoryTable
 import com.zotto.kds.database.table.DeviceTable
 import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Restaurant
@@ -26,6 +27,12 @@ interface ApiServices {
     @Path("restid") restid: String?,
     @Path("orderid") orderid: String?
   ): Observable<GenericResponse<Order>>
+
+  @GET("api/getCategoryList/{restid}")
+  fun getCategories(
+    @Header("Authorization") token: String?,
+    @Path("restid") restid: String?
+  ): Observable<GenericResponse<List<CategoryTable>>>
 
   @GET("/api/getDeviceList/{restid}/all")
   fun getDeviceList(

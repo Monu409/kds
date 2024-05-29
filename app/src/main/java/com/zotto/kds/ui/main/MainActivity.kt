@@ -65,6 +65,7 @@ class MainActivity : AppCompatActivity() {
         var activeOrders: TextView? = null
         var completedOrders: TextView? = null
         var rootfragment: FrameLayout? = null
+        var refreshFragment: Boolean = false
         private var drawerLayout: DrawerLayout? = null
         private var hamburger_menu: ImageView? = null
         private var isDrawerOpened = false

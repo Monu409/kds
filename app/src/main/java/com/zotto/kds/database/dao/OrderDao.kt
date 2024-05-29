@@ -50,6 +50,9 @@ interface OrderDao {
   @Update
   fun updateOrder(order: Order)
 
+  @Query("UPDATE `order` SET order_status='Confirm' WHERE order_status = 'Disabled'")
+  fun updateALlDisableOrder()
+
   @Query("UPDATE `order` SET order_status=:orderstatus WHERE order_id = :order_id")
   fun updateOrder(order_id: String, orderstatus: String)
 

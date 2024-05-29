@@ -8,12 +8,14 @@ import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.*
 import com.zotto.kds.R
 import com.zotto.kds.database.table.Order
+import com.zotto.kds.database.table.Product
 import java.util.*
 
 class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner) :
@@ -38,6 +40,8 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     var product_recyclerView = itemView.findViewById<RecyclerView>(R.id.product_recyclerView)
     var order_header = itemView.findViewById<ConstraintLayout>(R.id.order_header)
     var mComment = itemView.findViewById<TextView>(R.id.comment)
+
+
     fun bindData(order: Order) {
       if(order.comments!!.isEmpty()){
         mComment.visibility = View.GONE
@@ -89,7 +93,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         false
       )
       product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
-      var productAdapter = ProductAdpter(order.products!!, context!!)
+      var productAdapter = ProductAdpter(order.products!!, context!!,this)
       productAdapter.submitList(order.products!!)
       product_recyclerView!!!!.adapter = productAdapter
       productAdapter!!.notifyDataSetChanged()
@@ -106,6 +110,10 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     override fun updateProductTicket(product: com.zotto.kds.database.table.Product, position: Int) {
       orderOnClickListner.updateProductTicket(product)
     }
+
+//    override fun updateProduct(product: Product) {
+//      orderOnClickListner.updateProduct(product)
+//    }
   }
 
   class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Order>() {
@@ -137,6 +145,12 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
       order!!.order_status = "Ready"
       orderOnClickListner.updateOrder(position, order)
     }
+
+//    holder.order_header.setOnClickListener{
+      val animation = AnimationUtils.loadAnimation(context, R.anim.blink)
+      holder.order_header.startAnimation(animation)
+//    }
+
   }
 
   interface OrderOnClickListner {

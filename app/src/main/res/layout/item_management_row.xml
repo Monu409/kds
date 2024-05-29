@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/athensGray"
     android:layout_height="@dimen/_30sdp"
     android:layout_margin="@dimen/_3sdp">
 
@@ -12,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:fontFamily="@font/roboto_medium"
+        android:fontFamily="@font/opensans_bold"
         android:textColor="@color/black"
         android:textSize="@dimen/_8sdp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,6 +22,7 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <LinearLayout
+        android:id="@+id/btn_parent"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_20sdp"
         android:background="@drawable/rectangular_round_shape_with_gray_border_line"
@@ -29,35 +31,38 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="@dimen/_7sdp"
         app:layout_constraintVertical_bias="0.5">
 
         <RelativeLayout
+            android:id="@+id/enable_btn"
             android:background="@drawable/rectangular_left_roundshape_green"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
             <TextView
-                android:id="@+id/enable"
-                android:text="@string/enable_txt"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="@dimen/_8sdp"
-                android:fontFamily="@font/roboto_regular"
+                android:id="@+id/enable_txt"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/enable_txt"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_8sdp" />
 
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/disable_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
             <TextView
+                android:id="@+id/disable_txt"
                 android:text="@string/disable_txt"
                 android:layout_centerInParent="true"
                 android:textColor="@color/darker_gray"
                 android:textSize="@dimen/_8sdp"
-                android:fontFamily="@font/roboto_regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>

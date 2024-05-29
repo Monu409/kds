@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="itemmanagementviewmodel"
+            name="itemPage"
+            type="com.zotto.kds.ui.itemmanagement.ItemManagement" />
+
+        <variable
+            name="viewModel"
             type="com.zotto.kds.ui.itemmanagement.ItemManagementViewModel" />
 
     </data>
@@ -32,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="21dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/opensans_bold"
             android:text="@string/item_management_txt"
             android:textColor="@android:color/white"
             android:textSize="@dimen/_10sdp"
@@ -56,51 +61,57 @@
             app:layout_constraintTop_toBottomOf="@+id/back_btn">
 
             <RelativeLayout
+                android:id="@+id/all_lay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/rectangular_shape_with_border_line">
+                android:background="@{viewModel.selectedItem==0 ? @drawable/rectangular_color_pigeon_post : @drawable/rectangular_shape_with_border_line}"
+                android:onClick="@{v-> viewModel.getAllCategories()}">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/opensans_bold"
                     android:text="@string/all_txt"
-                    android:textColor="@color/white"
+                    android:textColor="@{viewModel.selectedItem==0 ? @color/darkGray : @color/white}"
                     android:textSize="@dimen/_8sdp" />
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/avail_lay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/rectangular_shape_with_border_line">
+                android:background="@{viewModel.selectedItem==1 ? @drawable/rectangular_color_pigeon_post: @drawable/rectangular_shape_with_border_line}"
+                android:onClick="@{v ->viewModel.getAvailableCategories()}">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/opensans_bold"
                     android:text="@string/available_item_txt"
-                    android:textColor="@color/white"
+                    android:textColor="@{viewModel.selectedItem==1 ? @color/darkGray : @color/white}"
                     android:textSize="@dimen/_8sdp" />
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/unavail_lay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/rectangular_shape_with_border_line">
+                android:background="@{viewModel.selectedItem==2 ? @drawable/rectangular_color_pigeon_post : @drawable/rectangular_shape_with_border_line}"
+                android:onClick="@{v-> viewModel.getUnavailableCategories()}">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/opensans_bold"
                     android:text="@string/unavailable_item_txt"
-                    android:textColor="@color/white"
+                    android:textColor="@{viewModel.selectedItem==2 ? @color/darkGray : @color/white}"
                     android:textSize="@dimen/_8sdp" />
             </RelativeLayout>
         </LinearLayout>

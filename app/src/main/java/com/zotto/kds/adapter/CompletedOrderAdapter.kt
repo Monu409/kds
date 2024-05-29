@@ -61,9 +61,9 @@ class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var
                 false
             )
             product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
-            var productAdapter = ProductAdpter(order.products!!, context!!)
+            var productAdapter = ProductAdpter(order.products!!, context)
             productAdapter.submitList(order.products!!)
-            product_recyclerView!!!!.adapter = productAdapter
+            product_recyclerView!!.adapter = productAdapter
             productAdapter!!.notifyDataSetChanged()
         }
 
