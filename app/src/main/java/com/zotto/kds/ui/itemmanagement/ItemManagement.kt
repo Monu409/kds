@@ -42,6 +42,7 @@ class ItemManagement : AppCompatActivity() {
     var orderList = ArrayList<Order>()
     var productList = ArrayList<Product>()
     var itemManagementRepository: ItemManagementRepository? = null
+    var apiServices: ApiServices = RetroClient.getApiService()!!
   }
 
   fun onClickEvent() {
@@ -73,7 +74,7 @@ class ItemManagement : AppCompatActivity() {
     orderList = ArrayList()
     productList = ArrayList()
 
-    itemManagementAdapter = ItemManagementAdapter(restId, this, disabledProductDao)
+    itemManagementAdapter = ItemManagementAdapter(restId, this, disabledProductDao,apiServices)
     val layoutManager = GridLayoutManager(this, 2)
 
     layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {

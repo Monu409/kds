@@ -14,16 +14,24 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.moshi.Json
 import com.zotto.kds.R
 import com.zotto.kds.database.dao.DisabledCategoryDao
 import com.zotto.kds.database.table.CategoryTable
 import com.zotto.kds.database.table.DisabledTable
+import com.zotto.kds.restapi.ApiServices
 import com.zotto.kds.ui.main.MainActivity
+import com.zotto.kds.utils.SessionManager
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import org.json.JSONObject
 
 class ItemManagementAdapter(
     val restId: String,
     val context: Context,
-    val disabledProductDao: DisabledCategoryDao?
+    val disabledProductDao: DisabledCategoryDao?,
+    var apiServices: ApiServices,
 ) : ListAdapter<Any, RecyclerView.ViewHolder>(DiffUtil()) {
     val VIEW_TYPE_ITEM = 1
     val VIEW_TYPE_HEADER = 0
@@ -104,6 +112,24 @@ class ItemManagementAdapter(
                     disPr.status = 0
                     disPr.type = cat_item.type
                     disabledProductDao.insertDisabledCategory(disPr)
+                    var availableKey = if(holder.enable_txt.text=="Available"){
+                        "0"
+                    } else{
+                        "1"
+                    }
+                    val compositeDisposable = CompositeDisposable()
+                    val rootObject= JSONObject()
+                    rootObject.put("product_id",cat_item.category_id)
+                    rootObject.put("restaurant_id",SessionManager.getRestaurantId(context))
+                    rootObject.put("product_status",availableKey)
+                    compositeDisposable.add(
+                        apiServices.updateItem(
+                            SessionManager.getToken(context),
+                            rootObject.toString()
+                        ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                            .subscribe({ response -> (response) },
+                                { t -> (t) })
+                    )
                 }
                 notifyItemChanged(position)
             }
@@ -113,23 +139,24 @@ class ItemManagementAdapter(
 
     private fun setUpButton(holder: MyViewHolder, product: CategoryTable) {
         if (disabledProductDao!!.isCategoryIsExist(restId, product.category_id!!)) {
-            holder.disable_btn.background = ContextCompat.getDrawable(
-                context,
-                R.drawable.rectangular_right_roundshape_red
-            )
-            holder.enable_btn.background = null
-            holder.disable_txt.setTextColor(Color.parseColor("#FFFFFF"))
-            holder.enable_txt.setTextColor(Color.parseColor("#666171"))
+//            holder.disable_btn.background = ContextCompat.getDrawable(
+//                context,
+//                R.drawable.rectangular_right_roundshape_red
+//            )
+            holder.enable_txt.text = "Available"
+//            holder.enable_btn.background = null
+//            holder.disable_txt.setTextColor(Color.parseColor("#FFFFFF"))
+//            holder.enable_txt.setTextColor(Color.parseColor("#666171"))
 
         } else {
-            holder.enable_btn.background = ContextCompat.getDrawable(
-                context,
-                R.drawable.rectangular_left_roundshape_green
-            )
-            holder.disable_btn.background = null
-
-            holder.enable_txt.setTextColor(Color.parseColor("#FFFFFF"))
-            holder.disable_txt.setTextColor(Color.parseColor("#666171"))
+//            holder.enable_btn.background = ContextCompat.getDrawable(
+//                context,
+//                R.drawable.rectangular_left_roundshape_green
+//            )
+            holder.enable_txt.text = "Not Available"
+//            holder.disable_btn.background = null
+//            holder.enable_txt.setTextColor(Color.parseColor("#FFFFFF"))
+//            holder.disable_txt.setTextColor(Color.parseColor("#666171"))
         }
 
     }

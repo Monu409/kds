@@ -45,6 +45,10 @@ interface ApiServices {
   fun updateOrder(@Header("Authorization") token: String?, @Body body: String?): Observable<String>
 
   @Headers("Content-Type: application/json")
+  @POST("/api/kds-updatestatus")
+  fun updateItem(@Header("Authorization") token: String?, @Body body: String?): Observable<String>
+
+  @Headers("Content-Type: application/json")
   @POST("/api/updateProductKds")
   fun updateProduct(
     @Header("Authorization") token: String?,
