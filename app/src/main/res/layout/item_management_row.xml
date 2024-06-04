@@ -36,7 +36,6 @@
 
         <RelativeLayout
             android:id="@+id/enable_btn"
-            android:background="@drawable/rectangular_left_roundshape_green"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
@@ -46,8 +45,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/enable_txt"
-                android:textColor="@color/white"
+                android:text="Available"
+                android:textColor="@color/black"
                 android:textSize="@dimen/_8sdp" />
 
         </RelativeLayout>
@@ -56,6 +55,7 @@
             android:id="@+id/disable_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:visibility="gone"
             android:layout_weight="1">
             <TextView
                 android:id="@+id/disable_txt"

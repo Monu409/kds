@@ -55,6 +55,7 @@
             android:layout_marginEnd="@dimen/_100sdp"
             android:background="@drawable/rectangular_shape_with_border_line"
             android:weightSum="3"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

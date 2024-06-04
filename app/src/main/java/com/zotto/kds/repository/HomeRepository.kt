@@ -41,7 +41,7 @@ class HomeRepository(
     val compositeDisposable = CompositeDisposable()
     compositeDisposable.add(
       apiServices.getSingleOrder(
-        SessionManager.getToken(context), SessionManager.getRestaurantId(context), orderid
+        SessionManager.getToken(context), getRestaurantId(context), orderid
       ).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
         .subscribe({ response -> onSingleOrderResponse(response) },
           { t -> onSingleOrderFailure(t) })
