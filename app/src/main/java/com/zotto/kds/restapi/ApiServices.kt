@@ -1,9 +1,6 @@
 package com.zotto.kds.restapi
 
-import com.zotto.kds.database.table.CategoryTable
-import com.zotto.kds.database.table.DeviceTable
-import com.zotto.kds.database.table.Order
-import com.zotto.kds.database.table.Restaurant
+import com.zotto.kds.database.table.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -33,6 +30,13 @@ interface ApiServices {
     @Header("Authorization") token: String?,
     @Path("restid") restid: String?
   ): Observable<GenericResponse<List<CategoryTable>>>
+
+  @GET("api/getProductList/{restid}/{catId}")
+  fun getProductsByCatId(
+    @Header("Authorization") token: String?,
+    @Path("restid") restid: String?,
+    @Path("catId") catId: String?
+  ): Observable<GenericResponse<List<ProductTable>>>
 
   @GET("/api/getDeviceList/{restid}/all")
   fun getDeviceList(

@@ -1,0 +1,63 @@
+package com.zotto.kds.database.table
+
+import com.google.gson.annotations.SerializedName
+
+
+data class Data (
+
+  @SerializedName("is_reduced"            ) var isReduced           : Int?    = null,
+  @SerializedName("gluten_free"           ) var glutenFree          : Int?    = null,
+  @SerializedName("lactose_free"          ) var lactoseFree         : Int?    = null,
+  @SerializedName("nuts_free"             ) var nutsFree            : Int?    = null,
+  @SerializedName("sort_order"            ) var sortOrder           : Int?    = null,
+  @SerializedName("printer_id"            ) var printerId           : Int?    = null,
+  @SerializedName("printer_type"          ) var printerType         : String? = null,
+  @SerializedName("printer_id2"           ) var printerId2          : String? = null,
+  @SerializedName("printer_type2"         ) var printerType2        : String? = null,
+  @SerializedName("points"                ) var points              : Int?    = null,
+  @SerializedName("organic_content"       ) var organicContent      : Int?    = null,
+  @SerializedName("online"                ) var online              : Int?    = null,
+  @SerializedName("is_vat"                ) var isVat               : Int?    = null,
+  @SerializedName("is_servicetax"         ) var isServicetax        : Int?    = null,
+  @SerializedName("is_localtax"           ) var isLocaltax          : Int?    = null,
+  @SerializedName("is_othertax"           ) var isOthertax          : Int?    = null,
+  @SerializedName("rts_flag"              ) var rtsFlag             : Int?    = null,
+  @SerializedName("scaling_qty"           ) var scalingQty          : Int?    = null,
+  @SerializedName("unit_id"               ) var unitId              : Int?    = null,
+  @SerializedName("happy_hours_id"        ) var happyHoursId        : String? = null,
+  @SerializedName("barcode"               ) var barcode             : String? = null,
+  @SerializedName("preparation_time"      ) var preparationTime     : String? = null,
+  @SerializedName("min_qty"               ) var minQty              : Int?    = null,
+  @SerializedName("date_modified"         ) var dateModified        : String? = null,
+  @SerializedName("print_products_flag"   ) var printProductsFlag   : Int?    = null,
+  @SerializedName("print_sequence"        ) var printSequence       : Int?    = null,
+  @SerializedName("is_stamp"              ) var isStamp             : Int?    = null,
+  @SerializedName("stamp_count"           ) var stampCount          : Int?    = null,
+  @SerializedName("expiry_time"           ) var expiryTime          : String? = null,
+  @SerializedName("expiry_type"           ) var expiryType          : String? = null,
+  @SerializedName("remote_product_id"     ) var remoteProductId     : String? = null,
+  @SerializedName("inshop_ordering"       ) var inshopOrdering      : Int?    = null,
+  @SerializedName("detour_ids"            ) var detourIds           : String? = null,
+  @SerializedName("open_dish"             ) var openDish            : Int?    = null,
+  @SerializedName("is_deal"               ) var isDeal              : Int?    = null,
+  @SerializedName("is_deleted"            ) var isDeleted           : Int?    = null,
+
+  @SerializedName("restaurant_group_id"   ) var restaurantGroupId   : Int?    = null,
+  @SerializedName("sku"                   ) var sku                 : String? = null,
+  @SerializedName("device_id"             ) var deviceId            : Int?    = null,
+  @SerializedName("pour_device_id"        ) var pourDeviceId        : String? = null,
+  @SerializedName("is_deposit"            ) var isDeposit           : Int?    = null,
+  @SerializedName("deposit_price"         ) var depositPrice        : Int?    = null,
+  @SerializedName("is_pour"               ) var isPour              : Int?    = null,
+  @SerializedName("linked_modifiers"      ) var linkedModifiers     : String? = null,
+  @SerializedName("is_linked_product"     ) var isLinkedProduct     : Int?    = null,
+  @SerializedName("energy_content"        ) var energyContent       : String? = null,
+  @SerializedName("food_category"         ) var foodCategory        : String? = null,
+  @SerializedName("is_spicy"              ) var isSpicy             : Int?    = null,
+  @SerializedName("is_self_order_enable"  ) var isSelfOrderEnable   : Int?    = null,
+  @SerializedName("is_vegetarian"         ) var isVegetarian        : Int?    = null,
+  @SerializedName("menu_type"             ) var menuType            : String? = null,
+  @SerializedName("cloud_image_url"       ) var cloudImageUrl       : String? = null,
+  @SerializedName("stockStatus"           ) var stockStatus         : Int?    = null
+
+)

@@ -19,6 +19,7 @@ import com.zotto.kds.R
 import com.zotto.kds.database.dao.DisabledCategoryDao
 import com.zotto.kds.database.table.CategoryTable
 import com.zotto.kds.database.table.DisabledTable
+import com.zotto.kds.localIP.SendTask
 import com.zotto.kds.restapi.ApiServices
 import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
@@ -122,6 +123,15 @@ class ItemManagementAdapter(
                     rootObject.put("product_id",cat_item.category_id)
                     rootObject.put("restaurant_id",SessionManager.getRestaurantId(context))
                     rootObject.put("product_status",availableKey)
+                    if(SessionManager.getSelectedPort(context)?.isEmpty() != true){
+                        rootObject.put("type","OnlineProductStockUpdate")
+                        var orderPort = SessionManager.getSelectedPort(context)?.toInt()
+                        var orderIp = SessionManager.getSelectedIp(context)
+                        val sendTask = SendTask(context, rootObject.toString(), orderIp, orderPort!!)
+                        sendTask.execute()
+                    }
+
+
                     compositeDisposable.add(
                         apiServices.updateItem(
                             SessionManager.getToken(context),

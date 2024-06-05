@@ -22,5 +22,6 @@
     <color name="athensGray">#E9E8ED</color>
     <color name="colorEmperor">#555555</color>
     <color name="colorChatelle">#B9B4BF</color>
-    <color name="line_color">#5E5B7B</color>
+    <color name="line_color">#7B5B72</color>
+    <color name="red">#DA4E6D</color>
 </resources>
