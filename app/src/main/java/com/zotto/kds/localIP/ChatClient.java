@@ -215,7 +215,7 @@ public class ChatClient extends AppCompatActivity {
 //                mMessageRecycler.setAdapter(mMessageAdapter);
 //                smessage.setText("");
             }
-            Toast.makeText(getApplicationContext(), "" + "Message sent successfully.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "" + "Message sent successfully.", Toast.LENGTH_SHORT).show();
 
         }
 

@@ -38,6 +38,7 @@ import com.zotto.kds.rabbitmq.RabbitmqService
 import com.zotto.kds.repository.MainReprository
 import com.zotto.kds.restapi.ApiServices
 import com.zotto.kds.restapi.RetroClient
+import com.zotto.kds.ui.SyncDataActivity
 import com.zotto.kds.ui.completedorders.CompletedOrders
 import com.zotto.kds.ui.home.HomeFragment
 import com.zotto.kds.ui.itemmanagement.ItemManagement
@@ -99,7 +100,10 @@ class MainActivity : AppCompatActivity() {
                 "Maybe", Toast.LENGTH_SHORT
             ).show()
         }
-        builder.show()
+        if (!isFinishing && !isDestroyed) {
+            builder.show()
+        }
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -128,7 +132,7 @@ class MainActivity : AppCompatActivity() {
         orderDao!!.deleteAllActiveOrder()
         productDao!!.deleteAllProduct()
         apiServices = RetroClient.getApiService()
-        showDialog()
+//        showDialog()
         val mainReprository = MainReprository(this, orderDao!!, apiServices!!)
         mainViewModel =
             ViewModelProvider(
@@ -166,7 +170,7 @@ class MainActivity : AppCompatActivity() {
         binding!!.appBarMain.waiterTxt.visibility = View.GONE
         var hprtPrinterPrinting = HPRTPrinterPrinting(this)
         hprtPrinterPrinting.printerPermission(this)
-        hprtPrinterPrinting.openUSBPrintingPort()
+        hprtPrinterPrinting.openUSBPrintingPort(this)
         binding!!.appBarMain.fab.setOnClickListener { view ->
             isAllFabsVisible = !isAllFabsVisible
             if (isAllFabsVisible) {
@@ -289,10 +293,10 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, SettingFragment::class.java))
                 }
 
-//                R.id.nav_chat -> {
-//                    drawerLayout!!.closeDrawers()
-//                    startActivity(Intent(this, ChatClient::class.java))
-//                }
+                R.id.sync_data -> {
+                    drawerLayout!!.closeDrawers()
+                    startActivity(Intent(this, SyncDataActivity::class.java))
+                }
             }
             if (menuItem.isChecked) {
                 menuItem.isChecked = false
@@ -313,7 +317,7 @@ class MainActivity : AppCompatActivity() {
             .addToBackStack("homefragment")
             .commit()
 
-        Utility.robotLog("start log......")
+//        Utility.robotLog("start log......")
     }
 
     private fun animateFab() {

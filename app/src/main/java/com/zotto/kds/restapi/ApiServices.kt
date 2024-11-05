@@ -1,7 +1,10 @@
 package com.zotto.kds.restapi
 
 import com.zotto.kds.database.table.*
+import com.zotto.kds.model.BaseUrlModel
+import com.zotto.kds.model.OnlineProducts
 import io.reactivex.Observable
+import retrofit2.Response
 import retrofit2.http.*
 
 interface ApiServices {
@@ -32,11 +35,11 @@ interface ApiServices {
   ): Observable<GenericResponse<List<CategoryTable>>>
 
   @GET("api/getProductList/{restid}/{catId}")
-  fun getProductsByCatId(
+  suspend fun getProductsByCatId(
     @Header("Authorization") token: String?,
     @Path("restid") restid: String?,
     @Path("catId") catId: String?
-  ): Observable<GenericResponse<List<ProductTable>>>
+  ): Response<OnlineProducts>
 
   @GET("/api/getDeviceList/{restid}/all")
   fun getDeviceList(
@@ -44,12 +47,18 @@ interface ApiServices {
     @Path("restid") restid: String?
   ): Observable<GenericResponse<List<DeviceTable>>>
 
+  @GET("/api/getRouteDetails/{restid}")
+  fun getRouteList(
+    @Header("Authorization") token: String?,
+    @Path("restid") restid: String?
+  ): Observable<GenericResponse<List<RouteTable>>>
+
   @Headers("Content-Type: application/json")
   @POST("/api/kds-updatestatus")
   fun updateOrder(@Header("Authorization") token: String?, @Body body: String?): Observable<String>
 
   @Headers("Content-Type: application/json")
-  @POST("/api/kds-updatestatus")
+  @POST("/api/updateProductStockStatus")
   fun updateItem(@Header("Authorization") token: String?, @Body body: String?): Observable<String>
 
   @Headers("Content-Type: application/json")
@@ -65,4 +74,18 @@ interface ApiServices {
     @Header("Authorization") token: String?,
     @Body body: String?
   ): Observable<String>
+
+  @Headers("Content-Type: application/json")
+  @POST("/api/posApi/v1/sendRabbitNotificationAsPerRoute")
+  fun sendKDStoKDS(
+    @Header("Authorization") token: String?,
+    @Body body: String?
+  ): Observable<String>
+//https://demopay.z-pay.co.uk/api/getBaseUrl
+  @GET("/api/getBaseUrl")
+  fun getBaseUrl(
+//    @Header("Authorization") token: String?,
+//    @Path("restid") restid: String?
+  ): Observable<BaseUrlModel>
+
 }

@@ -16,6 +16,7 @@ class Config {
     val USERNAME = "cibo"
     val PASSWORD = "123456"
     val ONLINE_EXCHANGE_NAME = "onlineordering"
+    val ROUTING_EXCHANGE_NAME = "routing"
     val VERSION_EXCHANGE_NAME = "version.control.app"
   }
 

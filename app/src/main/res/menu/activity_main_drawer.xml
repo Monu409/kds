@@ -12,6 +12,10 @@
             android:id="@+id/nav_setting"
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_setting" />
+        <item
+            android:id="@+id/sync_data"
+            android:icon="@drawable/sync"
+            android:title="@string/sync_data_txt" />
 <!--        <item-->
 <!--            android:id="@+id/nav_employee"-->
 <!--            android:icon="@drawable/ic_employee"-->

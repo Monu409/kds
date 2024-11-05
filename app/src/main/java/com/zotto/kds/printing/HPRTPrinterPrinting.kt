@@ -27,11 +27,10 @@ import com.zotto.kds.database.table.Product
 import com.zotto.kds.utils.SessionManager
 import print.Print
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
-import java.lang.Error
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.util.*
+
 
 class HPRTPrinterPrinting(var mcontext: Context) {
     companion object{
@@ -45,6 +44,21 @@ class HPRTPrinterPrinting(var mcontext: Context) {
         private var orderDao: OrderDao?=null
         private var restaurantDao: RestaurantDao?=null
     }
+
+    fun saveLogToFile(context: Context, logData: String, fileName: String = "KDS_logfile.txt") {
+        try {
+            // Create or open the log file in internal storage
+            val file = File(context.filesDir, fileName)
+
+            // Open file output stream in append mode
+            FileOutputStream(file, true).use { fos ->
+                fos.write((logData + "\n").toByteArray())
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
     private val mUsbReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             try {
@@ -93,6 +107,8 @@ class HPRTPrinterPrinting(var mcontext: Context) {
     }
 
     fun printerPermission(context: Context){
+//        Toast.makeText(context,"Enter in permission",Toast.LENGTH_LONG).show()
+//        saveLogToFile(context,"Enter in permission block")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             mPermissionIntent = PendingIntent.getBroadcast(context, 0, Intent(ACTION_USB_PERMISSION),PendingIntent.FLAG_MUTABLE)
         } else {
@@ -103,15 +119,21 @@ class HPRTPrinterPrinting(var mcontext: Context) {
         context.registerReceiver(mUsbReceiver, filter)
     }
 
-    fun openUSBPrintingPort(){
+    fun openUSBPrintingPort(context: Context){
+//        Toast.makeText(context,"Enter in openUSBPrintingPort",Toast.LENGTH_LONG).show()
+//        saveLogToFile(context,"Enter in openUSBPrintingPort")
         try {
             //USB not need call "iniPort"
+//            Toast.makeText(context,"Enter in openUSBPrintingPort try block",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort try block")
             mUsbManager = (mcontext!!.getSystemService(Context.USB_SERVICE) as UsbManager?)!!
             val deviceList = mUsbManager!!.deviceList
             val deviceIterator: Iterator<UsbDevice> = deviceList.values.iterator()
 
             var HavePrinter = false
             while (deviceIterator.hasNext()) {
+//                Toast.makeText(context,"Enter in openUSBPrintingPort while",Toast.LENGTH_LONG).show()
+//                saveLogToFile(context,"Enter in openUSBPrintingPort while")
                 device = deviceIterator.next()
                 val count = device!!.interfaceCount
                 for (i in 0 until count) {
@@ -135,10 +157,16 @@ class HPRTPrinterPrinting(var mcontext: Context) {
             }
         }catch (e:NullPointerException){
             e.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch1 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch1 ${e.printStackTrace()}")
         }catch (e: Exception){
             e.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch2 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch2 ${e.printStackTrace()}")
         }catch (e: IOException){
             e.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch3 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch3 ${e.printStackTrace()}")
         }
 
     }
@@ -152,38 +180,39 @@ class HPRTPrinterPrinting(var mcontext: Context) {
         }
     }
 
-     fun kitchenReciept(productlists:ArrayList<Product>, orderid:String){
-        openUSBPrintingPort()
-         var productlist=ArrayList<Product>()
+     fun kitchenReciept(productlists:ArrayList<Product>, orderid:String, context: Context){
+        openUSBPrintingPort(context)
+//         var productlist=ArrayList<Product>()
         receipt = ReceiptBuilder(600)
         receipt!!.setMargin(10, 10)
             .setAlign(Paint.Align.CENTER)
             .setColor(Color.BLACK)
             .setTextSize(25f)
-            .setTypeface(mcontext, "robotomono_regular.ttf")
+//            .setTypeface(typeface)
         try {
 
             if (Print.IsOpened()){
-                    companyDetails(orderid)
-                    for (product in productlist) {
+//            if (true){
+                    companyDetails(orderid,context)
+                    for (product in productlists) {
 
                             if (product.name!!.length < 23) {
                                 receipt!!.setAlign(Paint.Align.LEFT)
                                     .setTextSize(25f)
-                                    .setTypeface(mcontext, "robotomono_bold.ttf")
+//                                    .setTypeface(mcontext, "font/roboto_bold.ttf")
                                     .addText(product.quantity.toString()+" X "+product.name, true)
 
                             }
                             else {
                                 receipt!!.setAlign(Paint.Align.LEFT)
                                     .setTextSize(25f)
-                                    .setTypeface(mcontext, "robotomono_bold.ttf")
+//                                    .setTypeface(mcontext, "font/roboto_bold.ttf")
                                     .addText(product.quantity.toString()+" X "+product.name, true)
 
                                 if (product.name!!.length > 23) {
                                     receipt!!.setAlign(Paint.Align.LEFT)
                                         .setTextSize(25f)
-                                        .setTypeface(mcontext, "robotomono_bold.ttf")
+//                                        .setTypeface(mcontext, "font/roboto_bold.ttf")
                                         .addText(product.name!!.substring(23, product!!.name!!.length), true)
 
                                 }
@@ -191,32 +220,51 @@ class HPRTPrinterPrinting(var mcontext: Context) {
                             }
                             receipt!!.setAlign(Paint.Align.LEFT)
                                 .setTextSize(25f)
-                                .setTypeface(mcontext, "robotomono_bold.ttf")
+//                                .setTypeface(mcontext, "font/roboto_bold.ttf")
                                 .addText("", true)
-
-
                     }
 
                     receipt!!.setAlign(Paint.Align.CENTER)
                         .setTextSize(25f)
-                        .setTypeface(mcontext, "robotomono_bold.ttf")
+//                        .setTypeface(mcontext, "font/roboto_bold.ttf")
                         .addText("#"+orderid!!.substring(orderid.length-4,orderid.length), true)
+
+                var mBitmap = receipt!!.build()
+
+                try {
+                    val file: File = File(mcontext.getExternalFilesDir(null), "receipt.png")
+                    val out = FileOutputStream(file)
+                    mBitmap.compress(Bitmap.CompressFormat.PNG, 100, out)
+                    out.flush()
+                    out.close()
+                } catch (e: java.lang.Exception) {
+                    e.printStackTrace()
+                }
+
                     Print.PrintBitmap(receipt!!.build(), 0 , 0)
                     Print.CutPaper(Print.PARTIAL_CUT.toInt(), 40)
 
             }
         }catch (e:NullPointerException){
             e.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch4 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch4 ${e.printStackTrace()}")
         }catch (e:Exception){
             e.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch5 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch5 ${e.printStackTrace()}")
         }catch (e:IOException){
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch6 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch6 ${e.printStackTrace()}")
             e.printStackTrace()
         }finally {
             Print.PortClose()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch7",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch7")
         }
     }
 
-     fun companyDetails(orderid: String){
+     fun companyDetails(orderid: String, context: Context){
         appDatabase= DatabaseClient.getInstance(mcontext!!)!!.getAppDatabase()
         restaurantDao=appDatabase!!.restaurantDao()
          var restaurant=restaurantDao!!.getRestaurant(SessionManager.getRestaurantId(mcontext))
@@ -228,31 +276,34 @@ class HPRTPrinterPrinting(var mcontext: Context) {
         try {
 
             receipt!!.setAlign(Paint.Align.LEFT)
-                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
+//                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
                 .addText(restaurant!!.restaurantname,true)
 
 
             receipt!!.setAlign(Paint.Align.LEFT)
-                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
+//                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
                 .addText(mcontext.resources.getString(R.string.date_txt)+date,false)
                 .setAlign(Paint.Align.RIGHT)
                 .addText(mcontext.resources.getString(R.string.time_txt)+time+"  ",true)
 
                 receipt!!.setAlign(Paint.Align.LEFT)
-                    .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
+//                    .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
                     .addText(mcontext.resources.getString(R.string.order_id_txt)+orderid,true)
 
 
 
             receipt!!.setAlign(Paint.Align.CENTER)
-                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
+//                .setTextSize(25f).setTypeface(mcontext, "robotomono_regular.ttf")
                 .addText("---------------------------------------------------------",true)
 
         }catch (e: IOException){
             e.printStackTrace()
-
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch8 ${e.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch8 ${e.printStackTrace()}")
         }catch (ex:Exception){
             ex.printStackTrace()
+//            Toast.makeText(context,"Enter in openUSBPrintingPort catch1 ${ex.printStackTrace()}",Toast.LENGTH_LONG).show()
+//            saveLogToFile(context,"Enter in openUSBPrintingPort catch1 ${ex.printStackTrace()}")
         }catch (ex:IllegalStateException){
             ex.printStackTrace()
         }

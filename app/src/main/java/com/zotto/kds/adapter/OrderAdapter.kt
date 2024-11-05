@@ -4,26 +4,45 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.icu.text.SimpleDateFormat
+//import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.annotation.RequiresApi
+import android.widget.Toast
+//import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.*
 import com.zotto.kds.R
 import com.zotto.kds.database.table.Order
+import com.zotto.kds.database.table.Product
+import com.zotto.kds.printing.HPRTPrinterPrinting
+import com.zotto.kds.printing.PrintingOther
+import com.zotto.kds.restapi.ApiServices
+import com.zotto.kds.restapi.GenericResponse
+import com.zotto.kds.restapi.RetroClient
+import com.zotto.kds.ui.home.HomeFragment
+import com.zotto.kds.utils.SessionManager
+import com.zotto.kds.utils.Utility
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import org.json.JSONArray
+import org.json.JSONObject
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner) :
@@ -48,7 +67,10 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     var product_recyclerView = itemView.findViewById<RecyclerView>(R.id.product_recyclerView)
     var order_header = itemView.findViewById<ConstraintLayout>(R.id.order_header)
     var mComment = itemView.findViewById<TextView>(R.id.comment)
-    var blinkView = itemView.findViewById<View>(R.id.blink_view)
+    var mPrintOrder = itemView.findViewById<ImageView>(R.id.print_order_img)
+//    var mBump = itemView.findViewById<TextView>(R.id.bump)
+//    var blinkView = itemView.findViewById<View>(R.id.blink_view)
+    var mainLayout = itemView.findViewById<RelativeLayout>(R.id.main_layout)
 
 
 
@@ -103,9 +125,24 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         false
       )
       product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
+//      var productsFilter: ArrayList<Product>? = ArrayList<Product>()
+//      var listProducts = Utility().convertJsonToList(context)
+//      for(prod in order.products!!){
+//        listProducts.forEach { (key, value) ->
+//          println("Key: $key, Values: $value")
+//          for (mV in value){
+//            if(prod.product_id.equals(mV)){
+//              productsFilter!!.add(prod)
+//            }
+//          }
+//        }
+//      }
+      if(order.products!!.isEmpty()){
+        mainLayout.visibility = View.GONE
+      }
       var productAdapter = ProductAdpter(order.products!!, context!!,this)
       productAdapter.submitList(order.products!!)
-      product_recyclerView!!!!.adapter = productAdapter
+      product_recyclerView!!.adapter = productAdapter
       productAdapter!!.notifyDataSetChanged()
     }
 
@@ -126,6 +163,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //    }
   }
 
+
   class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Order>() {
     override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
 
@@ -139,7 +177,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 
   }
 
-  @RequiresApi(Build.VERSION_CODES.O)
+//  @RequiresApi(Build.VERSION_CODES.O)
   override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
     var order = getItem(position)
     if (order != null) {
@@ -152,20 +190,83 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     val draw = holder.order_header.getBackground() as GradientDrawable
     draw.setColor(Color.rgb(red, green, blue))
     holder.order_header.setBackground(draw)
-    holder.blinkView.visibility = View.VISIBLE
-    holder.blinkView.setOnClickListener {
+//    holder.blinkView.visibility = View.VISIBLE
+    holder.order_header.setOnClickListener {
       order!!.order_status = "Ready"
       orderOnClickListner.updateOrder(position, order)
 //      order.delivery_time?.let { it1 -> compareTimes(it1) }
     }
 
-//    holder.order_header.setOnClickListener{
-    if(compareTimes(order!!.delivery_time)) {
-      val animation = AnimationUtils.loadAnimation(context, R.anim.blink)
-      holder.blinkView.startAnimation(animation)
+    holder.mPrintOrder.setOnClickListener{
+        val hprtPrinterPrinting = HPRTPrinterPrinting(context)
+        if (order != null) {
+          hprtPrinterPrinting.kitchenReciept(
+            order.products!!, order.order_id!!,context
+          )
+//          PrintingOther(context).connectReceiptUsb()
+        }
     }
+
+//    holder.mBump.setOnClickListener{
+//      Log.e("bump", "bump$order")
+//      var parentJson = JSONObject()
+//      var childJson = JSONObject()
+//      var notificationArr = JSONArray()
+//      parentJson.put("restaurant_id",order!!.restaurant_id)
+//      parentJson.put("order_id",order.order_id)
+//      for ((index, value) in order.products!!.withIndex()) {
+//        childJson.put("id","1")
+//        childJson.put("productData", listOf(order.products!![index].product_id))
+//        notificationArr.put(childJson)
+//      }
+//      parentJson.put("notificationData",notificationArr)
+//      Log.e("tag",""+parentJson)
+//      sendKdsToKdsRes(parentJson)
 //    }
 
+//    holder.order_header.setOnClickListener{
+//    if(compareTimes(order!!.delivery_time)) {
+//      val animation = AnimationUtils.loadAnimation(context, R.anim.blink)
+//      holder.blinkView.startAnimation(animation)
+//    }
+//    else{
+//      holder.blinkView.visibility = View.INVISIBLE
+//    }
+//    }
+
+  }
+
+  private fun sendKdsToKdsRes(jsonObject: JSONObject) {
+    var apiServices: ApiServices? = RetroClient.getApiService()
+    val compositeDisposable = CompositeDisposable()
+    compositeDisposable.add(
+      apiServices!!.sendKDStoKDS(
+        SessionManager.getToken(context),
+        jsonObject.toString()
+      )
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribeOn(Schedulers.io())
+        .subscribe(
+          { response -> onResponse(response) },
+          { t -> onFailure(t) })
+    )
+  }
+
+  private fun onResponse(response: String) {
+    try {
+      Log.e("response",response)
+      val jsonObj = JSONObject(response)
+      val resultBool = jsonObj.getBoolean("result")
+      if(resultBool){
+        Toast.makeText(context,"Order send to other KDS",Toast.LENGTH_LONG).show()
+      }
+    } catch (e: Exception) {
+      e.printStackTrace()
+    }
+  }
+
+  private fun onFailure(t: Throwable) {
+    t.printStackTrace()
   }
 
   interface OrderOnClickListner {
@@ -175,29 +276,64 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     fun cancelProduct(product: com.zotto.kds.database.table.Product)
   }
 
-  @RequiresApi(Build.VERSION_CODES.O)
-  fun compareTimes(deliveryTime: String?):Boolean{
-    var shouldBlink = false
-    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+////  @RequiresApi(Build.VERSION_CODES.O)
+//@RequiresApi(Build.VERSION_CODES.O)
+//fun compareTimes(deliveryTime: String?):Boolean{
+//    var shouldBlink = false
+//    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+//
+//    try {
+//      val time: LocalTime = LocalTime.parse(deliveryTime, formatter)
+//      println("Parsed time: $time")
+//      val sdf = SimpleDateFormat("HH:mm")
+//      val currentDate = sdf.format(Date())
+//
+//      val d: Duration = Duration.between(
+//        LocalTime.parse(currentDate, formatter),
+//        time
+//      )
+//      Log.e("xcvb",d.toMinutes().toString())
+//      if(d.toMinutes()<=10){
+//        shouldBlink = true
+//      }
+//    } catch (e: DateTimeParseException) {
+//      println("Error parsing time: $e")
+//    }
+//    return shouldBlink;
+//  }
 
-    try {
-      val time: LocalTime = LocalTime.parse(deliveryTime, formatter)
-      println("Parsed time: $time")
-      val sdf = SimpleDateFormat("HH:mm")
-      val currentDate = sdf.format(Date())
 
-      val d: Duration = Duration.between(
-        time,
-        LocalTime.parse(currentDate, formatter)
-      )
-      Log.e("xcvb",d.toMinutes().toString())
-      if(d.toMinutes()>=10){
-        shouldBlink = true
-      }
-    } catch (e: DateTimeParseException) {
-      println("Error parsing time: $e")
-    }
-    return shouldBlink;
-  }
+////@RequiresApi(Build.VERSION_CODES.O)
+//fun compareTimes1(deliveryTime: String?):Boolean {
+//  // Define the input and output date formats
+//  val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+//  val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+//
+//  // Parse the input date string into a Date object
+//  val date = inputFormat.parse(inputDate)
+//
+//  // Format the Date object into the desired output format
+//  return date?.let {
+//    outputFormat.format(it)
+//  }
+//}
 
 }
+
+
+/*
+* KDS - Bugs:
+
+1. Online Kiosk orders are not coming
+//2. Remove the cookie arriving with order
+//3. Summary is not working----
+//4. I can not choose to Close individual product
+5. When Order is closed in KDS on the CDS it should move to Ready
+6. Space between the amount and start of Dish name
+//7. Remove BUMP----
+8. New orders should come on the Bottom right side ( Orders are random )
+//9. Comment is not coming-----
+//10. Allergi is not coming
+11.  Auto Printing is not working
+12. Printing button os Missing
+13.  App crash when you goto Closed orders and click a close order Dish ( not make it new).*/

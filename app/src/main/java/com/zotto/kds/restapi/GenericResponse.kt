@@ -7,6 +7,9 @@ class GenericResponse<T> {
     @JsonProperty("status")
     private var status: String? = null
 
+    @JsonProperty("result")
+    private var result: Boolean? = null
+
     @JsonProperty("message")
     private var message: String? = null
 
@@ -27,6 +30,14 @@ class GenericResponse<T> {
 
     fun setMessage(message: String?) {
         this.message = message
+    }
+
+    fun getResult(): Boolean? {
+        return result
+    }
+
+    fun setResult(result: Boolean?) {
+        this.result = result
     }
 
     fun getData(): T? {

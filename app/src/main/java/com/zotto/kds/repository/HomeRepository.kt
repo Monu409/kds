@@ -18,6 +18,7 @@ import com.zotto.kds.ui.home.HomeFragment
 import com.zotto.kds.utils.SessionManager
 import com.zotto.kds.utils.SessionManager.Companion.getRestaurantId
 import com.zotto.kds.utils.Singleton
+import com.zotto.kds.utils.Utility
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -67,22 +68,44 @@ class HomeRepository(
               "isorderexist=", "insertorder" + "-productsize-" + response.getData()!!.products!!.size
             )
 
+//            orderDao!!.insertOrder(response.getData()!!)
+//            productDao!!.insertProductList(response.getData()!!.products!!)
             orderDao!!.insertOrder(response.getData()!!)
-            productDao!!.insertProductList(response.getData()!!.products!!)
+//            var listProducts = Utility().convertJsonToList(context)
+//            var ruleProducts: ArrayList<Product> = ArrayList<Product>()
+//            for (product in response.getData()!!.products!!) {
+//              listProducts.forEach { (key, value) ->
+//                println("Key: $key, Values: $value")
+//                for (mV in value){
+//                  if(product.product_id.equals(mV)){
+//                    ruleProducts.add(product)
+//                  }
+//                }
+//                productDao!!.insertProductList(ruleProducts)
+//              }
+//            }
             Singleton.isactiveclicked = false
             var homeFragment = HomeFragment()
             homeFragment.startSpeech("Hi there! New order arrive. Please check.", "")
             if (SessionManager.isAutoPrint(context)) {
               var hprtPrinterPrinting = HPRTPrinterPrinting(context)
               hprtPrinterPrinting.kitchenReciept(
-                response.getData()!!.products!!, response.getData()!!.order_id!!
+                response.getData()!!.products!!, response.getData()!!.order_id!!,context
               )
             }
 
           } else {
             orderDao!!.updateOrder(updateOrder(response.getData()!!)!!)
+            var listProducts = Utility().convertJsonToList(context)
             for (product in response.getData()!!.products!!) {
-              productDao!!.updateProduct(product)
+              listProducts.forEach { (key, value) ->
+                println("Key: $key, Values: $value")
+                for (mV in value){
+                  if(product.product_id.equals(mV)){
+                    productDao!!.updateProduct(product)
+                  }
+                }
+              }
             }
             orderAdapter.notifyDataSetChanged()
             var homeFragment = HomeFragment()

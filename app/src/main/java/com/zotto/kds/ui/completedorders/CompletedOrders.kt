@@ -26,6 +26,7 @@ import com.zotto.kds.database.DatabaseClient
 import com.zotto.kds.database.dao.OrderDao
 import com.zotto.kds.database.dao.ProductDao
 import com.zotto.kds.database.table.Order
+import com.zotto.kds.database.table.Product
 import com.zotto.kds.databinding.CompleteOrdersBinding
 import com.zotto.kds.databinding.FragmentHomeBinding
 import com.zotto.kds.printing.HPRTPrinterPrinting
@@ -41,7 +42,7 @@ import com.zotto.kds.ui.main.MainActivity.Companion.completedOrders
 import com.zotto.kds.utils.Singleton
 import com.zotto.kds.utils.Singleton.Companion.ordertype
 
-class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderOnClickListner{
+class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderOnClickListner,OrderAdapter.OrderOnClickListner{
    companion object{
        private var binding: CompleteOrdersBinding? = null
        private  var completedOrderViewModel: CompletedOrderViewModel?=null
@@ -62,7 +63,7 @@ class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderO
         orderDao = appDatabase!!.orderDao()
        productDao = appDatabase!!.productDao()
        apiServices = RetroClient.getApiService()
-        completedorderAdapter = CompletedOrderAdapter(orderlist,this,this)
+        completedorderAdapter = CompletedOrderAdapter(orderlist,this,this,this)
         completedOrdersRepository = CompletedOrdersRepository(this,
            orderDao!!, productDao!!,
            apiServices!!, completedorderAdapter!!,supportFragmentManager)
@@ -91,7 +92,7 @@ class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderO
 
                     order_recycleview!!.apply {
                         order_recycleview!!.layoutManager=null
-                        completedorderAdapter = CompletedOrderAdapter(it, this@CompletedOrders,this@CompletedOrders)
+                        completedorderAdapter = CompletedOrderAdapter(it, this@CompletedOrders,this@CompletedOrders,this@CompletedOrders)
                         order_recycleview!!.layoutManager = GridLayoutManager(context,3 )
                         order_recycleview!!.setItemAnimator(DefaultItemAnimator())
                         order_recycleview!!.setHasFixedSize(true)
@@ -142,5 +143,21 @@ class CompletedOrders :AppCompatActivity(),CompletedOrderAdapter.CompletedOrderO
                 completedorderAdapter!!.submitList(it)
             })
         }
+    }
+
+    override fun updateOrder(position: Int, order: Order) {
+
+    }
+
+    override fun updateProduct(product: Product) {
+
+    }
+
+    override fun updateProductTicket(product: Product) {
+
+    }
+
+    override fun cancelProduct(product: Product) {
+
     }
 }

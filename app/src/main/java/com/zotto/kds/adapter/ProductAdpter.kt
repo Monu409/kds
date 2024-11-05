@@ -27,16 +27,16 @@ class ProductAdpter() :
     var productList: List<Product>?=null
     var context: Context?=null
     var productOnClickListner: ProductOnClickListner?=null
-   constructor( productList: List<Product>,  context: Context, productOnClickListner: ProductOnClickListner) : this() {
-       this.productList=productList
-       this.context=context
-       this.productOnClickListner=productOnClickListner
-   }
-    constructor( productList: List<Product>,  context: Context,) : this() {
+    constructor( productList: List<Product>,  context: Context, productOnClickListner: ProductOnClickListner) : this() {
         this.productList=productList
         this.context=context
         this.productOnClickListner=productOnClickListner
     }
+//    constructor( productList: List<Product>,  context: Context,) : this() {
+//        this.productList=productList
+//        this.context=context
+//        this.productOnClickListner=productOnClickListner
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.product_row, parent, false)
@@ -81,8 +81,8 @@ class ProductAdpter() :
             var detourname=""
             var omname=""
             var toppingname=""
-          quantity.text=product.quantity.toString()
-          product_name!!.text=product.name!!
+            quantity.text=product.quantity.toString()
+            product_name!!.text=product.name!!
 
             try {
                 if(product.fmname != null && !product.fmname.isNullOrEmpty() && product.fmname!!.length>1){
@@ -183,7 +183,7 @@ class ProductAdpter() :
 
     class ProductDiffUtil:DiffUtil.ItemCallback<Product>(){
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-           return oldItem.id == newItem.id
+            return oldItem.id == newItem.id
         }
 
         @SuppressLint("DiffUtilEquals")

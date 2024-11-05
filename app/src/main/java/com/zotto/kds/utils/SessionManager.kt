@@ -35,6 +35,8 @@ class SessionManager {
     private val SELECTED_IP = "selected_ip"
     private val SELECTED_PORT = "selected_port"
     private val SELECTED_DEVICE = "selected_device"
+    private val ROUTING_DEVICE = "routing_device"
+    private val SELECTED_RULE_PROD = "selected_rule_prod"
 
     fun getToken(context: Context?): String? {
       return getDefaultPref(context!!)!!.getString(TOKEN, "")
@@ -126,6 +128,37 @@ class SessionManager {
       editor.putString(SELECTED_DEVICE, laguage)
       editor.commit()
     }
+
+    @JvmStatic  fun getRuleProducts(context: Context?): String? {
+      return getDefaultPref(context!!)!!.getString(SELECTED_RULE_PROD, "")
+    }
+
+    @JvmStatic  fun setRuleProducts(context: Context?, laguage: String?) {
+      val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
+      editor.putString(SELECTED_RULE_PROD, laguage)
+      editor.commit()
+    }
+
+    @JvmStatic  fun getRoutingDeviceName(context: Context?): String? {
+      return getDefaultPref(context!!)!!.getString(ROUTING_DEVICE, "")
+    }
+
+    @JvmStatic  fun setRoutingDeviceName(context: Context?, rDevice: String?) {
+      val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
+      editor.putString(ROUTING_DEVICE, rDevice)
+      editor.commit()
+    }
+
+    @JvmStatic  fun getRuleId(context: Context?): String? {
+      return getDefaultPref(context!!)!!.getString(ROUTING_DEVICE, "")
+    }
+
+    @JvmStatic  fun setRuleId(context: Context?, rule: String?) {
+      val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
+      editor.putString(ROUTING_DEVICE, rule)
+      editor.commit()
+    }
+
 
     @JvmStatic  fun getSelectedPort(context: Context?): String? {
       return getDefaultPref(context!!)!!.getString(SELECTED_PORT, "")

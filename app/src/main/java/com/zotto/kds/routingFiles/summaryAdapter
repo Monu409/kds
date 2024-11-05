@@ -1,0 +1,161 @@
+package com.zotto.kds.adapter
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.zotto.kds.R
+import com.zotto.kds.model.Summary
+import com.zotto.kds.utils.SessionManager
+import org.json.JSONObject
+
+class SummaryAdapter(var productList: List<Any>, val context: Context) :
+  RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+  val VIEW_TYPE_ITEM = 1
+  val VIEW_TYPE_HEADER = 0
+  var fmname = ""
+  //  var omname = ""
+//  var toppingname = ""
+  override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    var view: View?
+    if (viewType == VIEW_TYPE_ITEM) {
+      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.summary_row, parent, false)
+      return MyViewHolder(view)
+    } else if (viewType == VIEW_TYPE_HEADER) {
+      view =
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.summary_header, parent, false)
+      return HeaderViewHolder(view)
+    }
+    throw RuntimeException("There is no type that matches the type " + viewType + ". Make sure you are using view types correctly!");
+  }
+
+  fun updateList(productList: List<Any>) {
+    this.productList = productList
+    notifyDataSetChanged()
+  }
+
+  override fun getItemCount(): Int {
+    return productList.size
+  }
+
+  override fun getItemViewType(position: Int): Int {
+    if (productList.get(position) is String)
+//    if (isPositionHeader(position))
+      return VIEW_TYPE_HEADER
+    else
+      return VIEW_TYPE_ITEM
+
+  }
+
+  private fun isPositionHeader(position: Int): Boolean {
+    return position == 0
+  }
+
+  fun convertJsonToList(): Map<String, List<String>> {
+    // Create a JSONObject from the JSON string
+    var jsonString = SessionManager.getRuleProducts(context)
+    val jsonObject = JSONObject(jsonString)
+
+    // Create a map to store the resulting lists
+    val resultMap = mutableMapOf<String, List<String>>()
+
+    // Iterate through the keys in the JSON object
+    jsonObject.keys().forEach { key ->
+      // Convert each JSONArray to a Kotlin List
+      val jsonArray = jsonObject.getJSONArray(key)
+      val list = mutableListOf<String>()
+      for (i in 0 until jsonArray.length()) {
+        list.add(jsonArray.getString(i))
+      }
+      resultMap[key] = list
+    }
+
+    return resultMap
+  }
+
+  override fun onBindViewHolder(
+    holder: RecyclerView.ViewHolder,
+    @SuppressLint("RecyclerView") position: Int
+  ) {
+    if (holder is HeaderViewHolder) {
+      holder.header.text = productList.get(position).toString()
+    } else if (holder is MyViewHolder) {
+      var newList: MutableList<Any> = ArrayList()
+      var listProducts = convertJsonToList()
+      for(prod in productList){
+        listProducts.forEach { (key, value) ->
+          println("Key: $key, Values: $value")
+          for (mV in value){
+//            if(productList.get(position).p.equals(mV)){
+//              productsFilter!!.add(prod)
+//            }
+          }
+        }
+      }
+      for (indexVal in productList){
+        if(indexVal == "Dishes"){
+          newList.add(indexVal)
+        }
+      }
+      var product = productList.get(position) as Summary
+      holder.product_name.text = product.name
+      holder.quantity.text = product.quantity.toString()
+//      Log.e("quantity=", product.quantity!!.toString())
+      fmname = ""
+//      omname = ""
+//      toppingname = ""
+      try {
+        Log.e(
+          "fm=",
+          product.toString() + "--" + product.fmname!! + "-om-" + product.omname!! + "-toppingname-" + product.toppingname!!
+        )
+        if (!product.fmname.isNullOrEmpty()) {
+          fmname += product.fmname
+        }
+        if (!product.detourname.isNullOrEmpty()) {
+          if (fmname.isEmpty())
+            fmname += product.detourname
+          else fmname += "\n" + product.detourname
+        }
+        if (!product.omname.isNullOrEmpty()) {
+          if (fmname.isEmpty())
+            fmname += product.omname
+          else fmname += "\n" + product.omname
+        }
+        if (fmname.isEmpty()) {
+          holder.modifiersname.visibility = View.GONE
+        } else {
+          holder.modifiersname.visibility = View.VISIBLE
+          holder.modifiersname.text = fmname
+        }
+        if (!product.toppingname.isNullOrEmpty()) {
+          holder.topping_name.visibility = View.VISIBLE
+          holder.topping_name.text = "Toppings: ${product.toppingname}"
+        } else {
+          holder.topping_name.visibility = View.GONE
+        }
+
+      } catch (e: Exception) {
+        e.printStackTrace()
+      } catch (e: NullPointerException) {
+        e.printStackTrace()
+      }
+    }
+  }
+
+  class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var header = itemView.findViewById<TextView>(R.id.header)
+  }
+
+  class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var product_name = itemView.findViewById<TextView>(R.id.product_name)
+    var quantity = itemView.findViewById<TextView>(R.id.quantity)
+    var modifiersname = itemView.findViewById<TextView>(R.id.modifiers)
+    var topping_name = itemView.findViewById<TextView>(R.id.topping_name)
+  }
+
+}

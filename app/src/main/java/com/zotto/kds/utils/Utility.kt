@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.Window
@@ -16,6 +17,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.zotto.kds.R
+import org.json.JSONObject
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
@@ -194,5 +196,34 @@ class Utility {
             val currentDate: String = simpleDateFormat.format(Date())
             return currentDate
         }
+    }
+
+    fun convertJsonToList(context: Context): Map<String, List<String>> {
+        // Create a JSONObject from the JSON string
+        val resultMap = mutableMapOf<String, List<String>>()
+       try{
+           var jsonString = SessionManager.getRuleProducts(context)
+           if(!jsonString.equals("")){
+               val jsonObject = JSONObject(jsonString)
+
+               // Create a map to store the resulting list
+
+               // Iterate through the keys in the JSON object
+               jsonObject.keys().forEach { key ->
+                   // Convert each JSONArray to a Kotlin List
+                   val jsonArray = jsonObject.getJSONArray(key)
+                   val list = mutableListOf<String>()
+                   for (i in 0 until jsonArray.length()) {
+                       list.add(jsonArray.getString(i))
+                   }
+                   resultMap[key] = list
+               }
+           }
+       }
+       catch (e:Exception){
+          Log.e("exception",""+e);
+       }
+
+        return resultMap
     }
 }

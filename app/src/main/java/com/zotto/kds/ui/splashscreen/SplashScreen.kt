@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.zotto.kds.databinding.SplashScreenBinding
+import com.zotto.kds.ui.SyncDataActivity
 import com.zotto.kds.ui.language.LanguageActiviity
 import com.zotto.kds.ui.login.LoginActivity
 import com.zotto.kds.ui.main.MainActivity

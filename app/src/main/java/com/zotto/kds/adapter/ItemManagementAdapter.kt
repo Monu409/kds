@@ -2,6 +2,7 @@ package com.zotto.kds.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,17 +11,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.moshi.Json
 import com.zotto.kds.R
 import com.zotto.kds.database.dao.DisabledCategoryDao
 import com.zotto.kds.database.table.CategoryTable
 import com.zotto.kds.database.table.DisabledTable
 import com.zotto.kds.localIP.SendTask
 import com.zotto.kds.restapi.ApiServices
+import com.zotto.kds.ui.ProductByCatActivity
 import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -62,7 +63,7 @@ class ItemManagementAdapter(
                 .inflate(R.layout.item_management_header, parent, false)
             return HeaderViewHolder(view)
         }
-        throw RuntimeException("There is no type that matches the type " + viewType + ". Make sure you are using view types correctly!");
+        throw RuntimeException("There is no type that matches the type $viewType. Make sure you are using view types correctly!");
 
     }
 
@@ -89,6 +90,7 @@ class ItemManagementAdapter(
         var disable_txt = itemView.findViewById<TextView>(R.id.disable_txt)
         var modifiersname = itemView.findViewById<TextView>(R.id.modifiers)
         var topping_name = itemView.findViewById<TextView>(R.id.topping_name)
+        var full_row = itemView.findViewById<ConstraintLayout>(R.id.full_row)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -102,11 +104,16 @@ class ItemManagementAdapter(
             holder.product_name.text = cat_item.cname
 
             setUpButton(holder, cat_item)
-            holder.btn_parent.setOnClickListener {
+            holder.full_row.setOnClickListener {
+                val intent = Intent(context, ProductByCatActivity::class.java)
+                intent.putExtra("Username", "John Doe")
+                intent.putExtra("cat_id", cat_item.category_id)
+                context.startActivity(intent)
                 MainActivity.refreshFragment = true
                 if (disabledProductDao!!.isCategoryIsExist(restId, cat_item.category_id!!)) {
                     disabledProductDao.deleteDisabledCategory(restId, cat_item.category_id!!)
-                } else {
+                }
+                else {
                     var disPr = DisabledTable()
                     disPr.restaurant_id = restId
                     disPr.category_id = cat_item.category_id

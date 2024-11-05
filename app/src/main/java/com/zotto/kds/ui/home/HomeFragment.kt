@@ -146,13 +146,13 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
 
     var hprtPrinterPrinting = HPRTPrinterPrinting(requireActivity())
     hprtPrinterPrinting.printerPermission(requireActivity())
-    hprtPrinterPrinting.openUSBPrintingPort()
+    hprtPrinterPrinting.openUSBPrintingPort(requireActivity())
     homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner, Observer {
       try {
-        Log.e(
-          "orderstatus==",
-          it.size.toString() + "--" + it!!.get(0)!!.order_status + "-order_id-" + it!!.get(0)!!.order_id + "-ordertype-" + Singleton.ordertype
-        )
+//        Log.e(
+//          "orderstatus==",
+//          it.size.toString() + "--" + it!!.get(0)!!.order_status + "-order_id-" + it!!.get(0)!!.order_id + "-ordertype-" + Singleton.ordertype
+//        )
         if (Singleton.ordertype.equals("active") && it!!.size > 0) {
           MainActivity.completedOrders!!.text = resources.getString(R.string.completed_txt)
           if (it != null && it.size > 0 && it.get(0)!!.order_status.equals("Confirm")) {
@@ -205,7 +205,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             completedorderAdapter =
-              CompletedOrderAdapter(it, requireActivity()!!, this@HomeFragment)
+              CompletedOrderAdapter(it, requireActivity()!!, this@HomeFragment,this@HomeFragment)
 //            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
             order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
             order_recycleview!!.setItemAnimator(DefaultItemAnimator())
@@ -219,7 +219,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
           if (completedorderAdapter != null)
             completedorderAdapter!!.notifyDataSetChanged()
         }
-        homeViewModel!!.getAllOrderFromLocal()
+        homeViewModel!!.getAllOrderFromLocal(requireActivity())
       } catch (e: Exception) {
         e.printStackTrace()
       } catch (e: NullPointerException) {
@@ -270,9 +270,9 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
           allData.add("Pizza")
           allData.addAll(pizzaList!!)
         }
-//        if (allData.size > 0) {
-        intiateRecycleview(allData)
-//        }
+        if (allData.size > 0) {
+         intiateRecycleview(allData)
+        }
       } catch (e: Exception) {
         e.printStackTrace()
       } catch (e: NullPointerException) {
@@ -442,13 +442,14 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
           orderAdapter!!.submitList(it!!)
         })
 //        orderAdapter!!.submitList(null)
-        homeViewModel!!.getAllOrderFromLocal()
+        homeViewModel!!.getAllOrderFromLocal(requireActivity())
       }
     }
   }
 
   override fun updateProduct(product: Product) {
     homeViewModel!!.updateProduct(
+      requireActivity(),
       product.product_id ?: "",
       product.serial_no ?: "",
       product.order_id ?: "",

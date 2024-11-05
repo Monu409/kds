@@ -1,6 +1,7 @@
 package com.zotto.kds.ui.home
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ComputableLiveData
 import androidx.lifecycle.LiveData
@@ -12,6 +13,7 @@ import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Product
 import com.zotto.kds.repository.HomeRepository
 import com.zotto.kds.utils.Singleton
+import com.zotto.kds.utils.Utility
 
 class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
 
@@ -42,7 +44,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
 
   }
 
-  fun getAllOrderFromLocal() {
+  fun getAllOrderFromLocal(context: Context) {
     Log.e(
       "getProductsFromLocal=",
       Singleton.ordertype
@@ -53,6 +55,17 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
         Singleton.isactiveclicked = false
         var products: ArrayList<Product>? = ArrayList()
         for (order in allActiveOrder) {
+//          var listProducts = Utility().convertJsonToList(context)
+//          for (product in order.products!!) {
+//            listProducts.forEach { (key, value) ->
+//              println("Key: $key, Values: $value")
+//              for (mV in value){
+//                if(product.product_id.equals(mV)){
+//                  products!!.add(product)
+//                }
+//              }
+//            }
+//          }
           products!!.addAll(order.products!!)
 //          }
           Log.e("getProducts data=", "$products")
@@ -61,7 +74,8 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
       } else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
         productListMutableLiveData!!.postValue(emptyList())
       }
-    } else if (Singleton.ordertype.equals("completed")) {
+    }
+    else if (Singleton.ordertype.equals("completed")) {
       var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllCompletedOrder()
       if (!allActiveOrder.isNullOrEmpty()) {
         if (!Singleton.isactiveclicked) {
@@ -70,7 +84,8 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
             allActiveOrder[0].products
           )
         }
-      } else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
+      }
+      else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
         productListMutableLiveData!!.postValue(emptyList())
       }
     }
@@ -135,7 +150,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
     )
   }
 
-  fun updateProduct(
+  fun updateProduct(context: Context,
     product_id: String, serial_no: String, orderid: String, status: String, time: String,
     name: String, customer_name: String, table: String, product: Product
   ) {
@@ -151,7 +166,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
         table
       )!!, product
     )
-    getAllOrderFromLocal()
+    getAllOrderFromLocal(context)
   }
 
   fun updateProductTicket(

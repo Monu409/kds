@@ -20,9 +20,9 @@ class RetroClient {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
                 .callTimeout(5, TimeUnit.MINUTES)
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
+                .connectTimeout(5, TimeUnit.MINUTES)
+                .readTimeout(5, TimeUnit.MINUTES)
+                .writeTimeout(5, TimeUnit.MINUTES)
             okHttpClient.addInterceptor(logging)
             okHttpClient.addInterceptor { chain ->
                 val request =

@@ -39,6 +39,8 @@ class OrderBroadcastReciever(var homeRepository: HomeRepository) : BroadcastRece
         )
         if (completeJson.getString("type").equals("order")) {
           homeRepository.getSingleOrder(newJson.getString("orderid"))
+        } else if (completeJson.getString("type").equals("order_notification")) {
+          homeRepository.getSingleOrder(newJson.getString("orderId"))
         } else if (completeJson.getString("type").equals("endSession")) {
           homeRepository.deleteAllOrders()
         }

@@ -479,16 +479,47 @@
                         android:background="@drawable/spinner_background"
                         android:minHeight="@dimen/_35sdp"
                         android:spinnerMode="dialog" />
-                    <!--                    <Spinner-->
-                    <!--                        android:id="@+id/device_spnr"-->
-                    <!--                        android:layout_width="wrap_content"-->
-                    <!--                        android:layout_height="@dimen/_27sdp"-->
-                    <!--                        android:layout_marginLeft="@dimen/_12sdp"-->
-                    <!--                        android:layout_marginTop="@dimen/_2sdp"-->
-                    <!--                        android:layout_marginBottom="@dimen/_2sdp"-->
-                    <!--                        android:background="@drawable/spinner_background"-->
-                    <!--                        android:minWidth="@dimen/_120sdp"-->
-                    <!--                        android:spinnerMode="dialog" />-->
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_below="@+id/device_layout"
+                    android:background="@color/white" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <LinearLayout
+                    android:id="@+id/route_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_32sdp"
+                    android:orientation="horizontal"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="130dp">
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="@string/choose_route_txt"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
+                    <Spinner
+                        android:id="@+id/route_spnr"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_27sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:background="@drawable/spinner_background"
+                        android:minWidth="@dimen/_120sdp"
+                        android:spinnerMode="dialog" />
                 </LinearLayout>
 
             </RelativeLayout>
@@ -497,7 +528,7 @@
                 android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_1sdp"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_5sdp"
                 android:background="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

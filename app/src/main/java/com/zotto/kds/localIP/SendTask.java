@@ -89,7 +89,7 @@ public class SendTask extends AsyncTask<Void, Void, String> {
 ////                mMessageRecycler.setAdapter(mMessageAdapter);
 ////                smessage.setText("");
 //            }
-        Toast.makeText(context, "Message sent successfully-->" + result, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "Message sent successfully-->" + result, Toast.LENGTH_SHORT).show();
 
     }
 

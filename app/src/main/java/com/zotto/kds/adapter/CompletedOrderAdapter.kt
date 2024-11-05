@@ -13,19 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.zotto.kds.R
+import com.zotto.kds.adapter.OrderAdapter.OrderOnClickListner
 import com.zotto.kds.database.table.Order
 import com.zotto.kds.database.table.Product
 import com.zotto.kds.utils.Singleton
 import org.w3c.dom.Text
 
-class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var completedOrderOnClickListner:CompletedOrderOnClickListner) :
+class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var completedOrderOnClickListner:CompletedOrderOnClickListner,var orderOnClickListner: OrderOnClickListner) :
     ListAdapter<Order, CompletedOrderAdapter.MyViewHolder>(DiffUtil()){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.completed_order_row, parent, false)
-        return MyViewHolder(view,context)
+        return MyViewHolder(view,context,orderOnClickListner)
     }
-    class MyViewHolder(itemView: View, var context: Context) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View, var context: Context,var orderOnClickListner: OrderOnClickListner) : RecyclerView.ViewHolder(itemView),ProductAdpter.ProductOnClickListner {
         var table_name= itemView.findViewById<TextView>(R.id.table_name)
         var order_id= itemView.findViewById<TextView>(R.id.order_id)
         var customer_name= itemView.findViewById<TextView>(R.id.customer_name)
@@ -61,10 +62,22 @@ class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var
                 false
             )
             product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
-            var productAdapter = ProductAdpter(order.products!!, context)
+            var productAdapter = ProductAdpter(order.products!!, context,this)
             productAdapter.submitList(order.products!!)
             product_recyclerView!!.adapter = productAdapter
             productAdapter!!.notifyDataSetChanged()
+        }
+
+        override fun updateProductStatus(product: Product, position: Int) {
+            orderOnClickListner.updateProduct(product)
+        }
+
+        override fun cancelProduct(product: Product, position: Int) {
+            orderOnClickListner.cancelProduct(product)
+        }
+
+        override fun updateProductTicket(product: Product, position: Int) {
+            orderOnClickListner.updateProductTicket(product)
         }
 
 
