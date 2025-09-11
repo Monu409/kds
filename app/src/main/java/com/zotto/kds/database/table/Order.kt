@@ -152,6 +152,10 @@ class Order() : Parcelable {
   @ColumnInfo(name = "delivery_option")
   var delivery_option: String? = null
 
+  @JsonProperty("sequence_order_id")
+  @ColumnInfo(name = "sequence_order_id")
+  var sequence_order_id: String? = null
+
   @JsonProperty("order_from")
   @ColumnInfo(name = "order_from")
   var order_from: String? = null
@@ -197,6 +201,7 @@ class Order() : Parcelable {
     delivery_email = parcel.readString()
     paid = parcel.readString()
     delivery_option = parcel.readString()
+    sequence_order_id = parcel.readString()
       order_from = parcel.readString()
   }
 
@@ -236,6 +241,7 @@ class Order() : Parcelable {
     parcel.writeString(delivery_email)
     parcel.writeString(paid)
     parcel.writeString(delivery_option)
+    parcel.writeString(sequence_order_id)
     parcel.writeString(order_from)
   }
 

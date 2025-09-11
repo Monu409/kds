@@ -30,6 +30,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class HPRTPrinterPrinting(var mcontext: Context) {
@@ -218,10 +219,44 @@ class HPRTPrinterPrinting(var mcontext: Context) {
                                 }
 
                             }
-                            receipt!!.setAlign(Paint.Align.LEFT)
-                                .setTextSize(25f)
+                        if((product.fm?.isEmpty()) != true){
+//                            for (item in product.fm!!){
+//                                receipt!!.setAlign(Paint.Align.LEFT)
+//                                    .setTextSize(20f)
+////                                    .setTypeface(mcontext, "font/roboto_bold.ttf")
+//                                    .addText("   ${item.fm_cat_name}: ${item.fm_item_name}", true)
+//                            }
+                            val groupedItems = product.fm!!
+                                .groupBy { it.fm_cat_name }
+                                .mapValues { entry -> entry.value.joinToString(", ") { it.fm_item_name.toString() } }
+
+                            for ((fmCatName, fmItemNames) in groupedItems) {
+                                receipt!!.setAlign(Paint.Align.LEFT)
+                                    .setTextSize(20f)
+                                    .addText("   $fmCatName: $fmItemNames", true)
+                            }
+                        }
+                        if((product.om?.isEmpty()) != true){
+                            val groupedItems = product.om!!
+                                .groupBy { it.om_cat_name }
+                                .mapValues { entry -> entry.value.joinToString(", ") { it.om_item_name.toString() } }
+
+                            for ((omCatName, omItemNames) in groupedItems) {
+                                receipt!!.setAlign(Paint.Align.LEFT)
+                                    .setTextSize(20f)
+                                    .addText("   $omCatName: $omItemNames", true)
+                            }
+//                            for (item in product.om!!){
+//                                receipt!!.setAlign(Paint.Align.LEFT)
+//                                    .setTextSize(20f)
+////                                    .setTypeface(mcontext, "font/roboto_bold.ttf")
+//                                    .addText("   ${item.om_cat_name}: ${item.om_item_name}", true)
+//                            }
+                        }
+                        receipt!!.setAlign(Paint.Align.LEFT)
+                            .setTextSize(25f)
 //                                .setTypeface(mcontext, "font/roboto_bold.ttf")
-                                .addText("", true)
+                            .addText("", true)
                     }
 
                     receipt!!.setAlign(Paint.Align.CENTER)

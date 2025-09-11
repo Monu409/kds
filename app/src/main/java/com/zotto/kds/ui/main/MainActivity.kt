@@ -24,6 +24,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.zotto.kds.BuildConfig
 import com.zotto.kds.R
 import com.zotto.kds.database.AppDatabase
 import com.zotto.kds.database.DatabaseClient
@@ -106,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @SuppressLint("RestrictedApi")
+    @SuppressLint("RestrictedApi", "NewApi")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         LocaleHelper.setLocale(this, SessionManager.getLanguage(this))
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity() {
             Utils.getIPAddress(true),
             this,
             this,
-            8383,
+            5672,
             SessionManager.getSelectedIp(this@MainActivity)
         )
         chatServer!!.start()
@@ -168,10 +169,18 @@ class MainActivity : AppCompatActivity() {
         binding!!.appBarMain.robotoTxt.visibility = View.GONE
         binding!!.appBarMain.chargingTxt.visibility = View.GONE
         binding!!.appBarMain.waiterTxt.visibility = View.GONE
-        var hprtPrinterPrinting = HPRTPrinterPrinting(this)
+        val hprtPrinterPrinting = HPRTPrinterPrinting(this)
         hprtPrinterPrinting.printerPermission(this)
         hprtPrinterPrinting.openUSBPrintingPort(this)
-        binding!!.appBarMain.fab.setOnClickListener { view ->
+        val headerView = binding!!.navView.getHeaderView(0)
+        val imageView = headerView.findViewById<ImageView>(R.id.imageVview)
+        if(BuildConfig.FLAVOR.equals("opus")){
+            imageView.setImageResource(R.drawable.logo_op)
+        }
+        else{
+            imageView.setImageResource(R.drawable.logo_sy)
+        }
+        binding!!.appBarMain.fab.setOnClickListener {
             isAllFabsVisible = !isAllFabsVisible
             if (isAllFabsVisible) {
                 binding!!.appBarMain.robotoFab.show()
@@ -270,6 +279,11 @@ class MainActivity : AppCompatActivity() {
         navView!!.findViewById<RelativeLayout>(com.zotto.kds.R.id.logout).setOnClickListener {
             showPopup()
         }
+
+//        navView!!.findViewById<ImageView>(R.id.imageVview).setImageResource(
+//            R.drawable.logo_sy
+//        )
+//        navView!!.requireViewById<ImageView>(R.id.imageVview).setImageResource(R.drawable.logo_sy)
 
         val toggle = ActionBarDrawerToggle(
             this,

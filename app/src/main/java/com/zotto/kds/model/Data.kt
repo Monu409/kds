@@ -3,7 +3,7 @@ package com.zotto.kds.model
 data class Data(
     val product_id: String,
     val category_id: String,
-    val restaurant_id: Int,
+    val restaurant_id: Long,
     val status: String,
     val pname: String,
     val description: String,

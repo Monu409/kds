@@ -70,7 +70,7 @@ class HomeRepository(
 
 //            orderDao!!.insertOrder(response.getData()!!)
 //            productDao!!.insertProductList(response.getData()!!.products!!)
-            orderDao!!.insertOrder(response.getData()!!)
+            orderDao.insertOrder(response.getData()!!)
 //            var listProducts = Utility().convertJsonToList(context)
 //            var ruleProducts: ArrayList<Product> = ArrayList<Product>()
 //            for (product in response.getData()!!.products!!) {
@@ -95,14 +95,14 @@ class HomeRepository(
             }
 
           } else {
-            orderDao!!.updateOrder(updateOrder(response.getData()!!)!!)
+            orderDao.updateOrder(updateOrder(response.getData()!!))
             var listProducts = Utility().convertJsonToList(context)
             for (product in response.getData()!!.products!!) {
               listProducts.forEach { (key, value) ->
                 println("Key: $key, Values: $value")
                 for (mV in value){
                   if(product.product_id.equals(mV)){
-                    productDao!!.updateProduct(product)
+                    productDao.updateProduct(product)
                   }
                 }
               }

@@ -109,7 +109,8 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //      }
 
       order_id.text =
-        "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
+//        "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
+        "#" + order.sequence_order_id
       if (order.delivery_firstname.isNullOrEmpty() && order.delivery_lastname.isNullOrEmpty()) {
         customer_name.text = "Guest"
       } else {
@@ -193,8 +194,9 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //    holder.blinkView.visibility = View.VISIBLE
     holder.order_header.setOnClickListener {
       order!!.order_status = "Ready"
+      var homeFragment = HomeFragment()
+      homeFragment.startSpeech("Hi there! order "+order.sequence_order_id+ "is ready now.", "")
       orderOnClickListner.updateOrder(position, order)
-//      order.delivery_time?.let { it1 -> compareTimes(it1) }
     }
 
     holder.mPrintOrder.setOnClickListener{

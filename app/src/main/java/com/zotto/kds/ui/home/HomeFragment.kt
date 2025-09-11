@@ -15,17 +15,15 @@ import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.zotto.kds.R
+import com.zotto.kds.*
 import com.zotto.kds.adapter.CompletedOrderAdapter
 import com.zotto.kds.adapter.OrderAdapter
 import com.zotto.kds.adapter.SummaryAdapter
@@ -48,6 +46,7 @@ import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
 import com.zotto.kds.utils.Singleton
 import java.util.*
+
 
 class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
   CompletedOrderAdapter.CompletedOrderOnClickListner {
@@ -134,6 +133,9 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
     }
 
 //    var mGridLayoutManager = GridLayoutManager(context,3)
+//    val marginStandard = resources.getDimension(R.dimen.margin_standard)
+//    Toast.makeText(requireActivity(), "margin_standard: $marginStandard pixels", Toast.LENGTH_LONG).show()
+
 
     val mGridLayoutManager = GridLayoutManager(context, 3)
 

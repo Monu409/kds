@@ -12,12 +12,16 @@ class Config {
     val ROBOT_NOTIFICATION = "robotNotification478"
     val NOTIFICATION_ID = 301
     val LOG_STATUS = true
-    val HOSTNAME = "rabbit.ciboapp.com"
-    val USERNAME = "cibo"
-    val PASSWORD = "123456"
+    val HOSTNAME = "api.opushospitalitymanager.com"
+//    val USERNAME = "cibo"
+//    val PASSWORD = "123456"
+    val USERNAME = "opus"
+    val PASSWORD = "0pu5@123"
     val ONLINE_EXCHANGE_NAME = "onlineordering"
     val ROUTING_EXCHANGE_NAME = "routing"
     val VERSION_EXCHANGE_NAME = "version.control.app"
   }
 
 }
+
+//http://api.opushospitalitymanager.com:15672

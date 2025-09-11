@@ -70,7 +70,7 @@ data class DataX(
     val rem_om_id: Int,
     val remote_product_id: String,
     val restaurant_group_id: Int,
-    val restaurant_id: Int,
+    val restaurant_id: Long,
     val rts_flag: Int,
     val scaling_qty: Int,
     val sku: String,

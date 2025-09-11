@@ -11,8 +11,9 @@ import java.util.concurrent.TimeUnit
 class RetroClient {
     companion object{
         private val ROOT_TEST_URL = "https://paymentz.z-pay.co.uk/"
-//        private const val ROOT_LIVE_URL = "https://api.ciboapp.com/"
-        private const val ROOT_LIVE_URL = "https://demopay.z-pay.co.uk/"
+//        const val ROOT_LIVE_URL = "https://api.ciboapp.com/"
+//        const val ROOT_LIVE_URL = "https://demopay.z-pay.co.uk/"
+        const val ROOT_LIVE_URL = "https://api.opushospitalitymanager.com/"
         private var restAdapter: Retrofit? = null
         private  var apiService: ApiServices? = null
         fun setupRestClient() {

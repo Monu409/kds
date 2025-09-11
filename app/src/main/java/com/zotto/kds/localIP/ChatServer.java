@@ -1,6 +1,6 @@
 package com.zotto.kds.localIP;
 
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -57,33 +57,17 @@ public class ChatServer extends Thread {
         this.serverIpAddress = serverIpAddress;
         this.activity = activity;
         id = SessionManager.getRestaurantId(context);
-
-
-
-//        Gson gson = new Gson();
-////        ipAddress = gson.fromJson(SessionManager.getSelectedIp(context), ArrayList.class);
-//        ArrayList<String> ports = gson.fromJson(SessionManager.getSelectedPort(context), ArrayList.class);
-//
-////        Log.e("ip is", "== " + ipAddress);
-//        Log.e("ports is", "== " + ports);
-//
-//        if (ports != null)
-//            for (String portNo : ports) {
-//                if (portNo != null && !portNo.equals(""))
-//                    allPorts.add(Integer.parseInt(portNo));
-//            }
-
+//        startServer();
     }
 
-    @SuppressLint("SetTextI18n")
+    //@SuppressLint("SetTextI18n")
     public void run() {
         try {
             ServerSocket initSocket = new ServerSocket(port);
             initSocket.setReuseAddress(true);
-//            TextView textView;
-//            textView = activity.findViewById(R.id.textView);
-//            textView.setText("Server Socket Started at IP: " + ownIp + " and Port: " + port);
-//            textView.setBackgroundColor(Color.parseColor("#39FF14"));
+            if(!initSocket.isBound()){
+                initSocket.bind(new InetSocketAddress(serverIpAddress, port));
+            }
             System.out.println(TAG + "started");
             while (!Thread.interrupted()) {
                 Socket connectSocket = initSocket.accept();
@@ -92,15 +76,40 @@ public class ChatServer extends Thread {
             }
             initSocket.close();
         } catch (IOException e) {
-//            TextView textView;
-//            textView = activity.findViewById(R.id.textView);
-//            textView.setText("Server Socket initialization failed. Port already in use.");
-//            textView.setBackgroundColor(Color.parseColor("#FF0800"));
             e.printStackTrace();
         }
     }
 
-    @SuppressLint("StaticFieldLeak")
+//    public void startServer() {
+//        new Thread(() -> {
+//            try {
+//                ServerSocket serverSocket = new ServerSocket(port);
+//                System.out.println("Server started. Waiting for clients...");
+//
+//                // Accept client connections
+//                Socket clientSocket = serverSocket.accept();
+//                System.out.println("Client connected!");
+//
+//                // Read data from client
+//                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+//
+//                String receivedMessage;
+//                while ((receivedMessage = in.readLine()) != null) {
+//                    System.out.println("Received: " + receivedMessage);
+//
+//                    // Optionally send a response
+//                    out.println("Message received: " + receivedMessage);
+//
+//                }
+//
+//                clientSocket.close();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }).start();
+//    }
+//    @SuppressLint("StaticFieldLeak")
     public class receiveTexts extends AsyncTask<Socket, Void, String> {
         String text;
 
@@ -119,24 +128,11 @@ public class ChatServer extends Thread {
         protected void onPostExecute(String result) {
             Log.d(TAG, "onPostExecute: Result" + result);
             if (result.charAt(0) == '1' && result.charAt(1) == ':') {
-//                StringBuilder stringBuilder = new StringBuilder(result);
-//                stringBuilder.deleteCharAt(0);
-//                stringBuilder.deleteCharAt(0);
-//                result = stringBuilder.toString();
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 Log.e("result", result);
                 parsMessage(result);
-//                messageArray.add(new Message(result, 1, Calendar.getInstance().getTime()));
-//                messageList.setAdapter(mAdapter);
             } else {
-                Toast.makeText(context, result, Toast.LENGTH_SHORT).show();
                 Log.e("result 123", result);
                 parsMessage(result);
-//                RecyclerView message_List;
-//                message_List = activity.findViewById(R.id.message_list);
-//                LayerDrawable layerDrawable = (LayerDrawable) message_List.getBackground();
-//                GradientDrawable gradientDrawable = (GradientDrawable) layerDrawable.findDrawableByLayerId(R.id.shapeColor);
-//                gradientDrawable.setColor(Color.parseColor("#" + result));
             }
         }
 

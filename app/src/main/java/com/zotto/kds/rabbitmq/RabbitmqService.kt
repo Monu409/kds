@@ -230,30 +230,25 @@ class RabbitmqService:Service() {
                         HashMap()
                     args["x-expires"] = 28800000
                     args["x-queue-mode"] = "lazy"
-                    val map: MutableMap<String, Any> =
-                        HashMap()
+                    val map: MutableMap<String, Any> = HashMap()
                     map["x-match"] = "all"
-                        map["Restid"] = id!!
+                    map["Restid"] = id!!
                     map["Type"] = "Online"
-                    val map1: MutableMap<String, Any> =
-                        HashMap()
+                    val map1: MutableMap<String, Any> = HashMap()
                     map1["x-match"] = "all"
-                        map1["Restid"] = id!!
+                    map1["Restid"] = id!!
                     map1["Type"] = "endSession"
-                    val map2: MutableMap<String, Any> =
-                        HashMap()
+                    val map2: MutableMap<String, Any> = HashMap()
                     map2["action"] = "table_data"
                     map2["type"] = "remote_control"
                     map2["x-match"] = "all"
 
-                    val map3: MutableMap<String, Any> =
-                        HashMap()
+                    val map3: MutableMap<String, Any> = HashMap()
                     map3["x-match"] = "any"
                     map3["Restid"] = id!!
                     map3["Ruleid"] = selectedRuleId!!
                     map3["Type"] = "order_update"
                     map3["Notification"] = true
-//                    map3["Ruleid"] = "4"
                     Log.e("selectedRuleId",selectedRuleId)
 
 

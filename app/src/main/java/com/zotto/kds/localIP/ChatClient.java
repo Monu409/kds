@@ -66,7 +66,7 @@ public class ChatClient extends AppCompatActivity {
 //    ArrayList<Integer> allPorts = new ArrayList();
 
     ArrayList<String> ipAddress = new ArrayList(Arrays.asList("192.168.163.80"));
-    ArrayList<Integer> allPorts = new ArrayList(Arrays.asList(8383));
+    ArrayList<Integer> allPorts = new ArrayList(Arrays.asList(5672));
 
     @SuppressLint("CutPasteId")
     @Override

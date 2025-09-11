@@ -9,7 +9,7 @@ data class ResCategory(
     val category_id: String,
     val cname: String,
     val cn_name: String,
-    val restaurant_id: Int,
+    val restaurant_id: Long,
     val picture: String,
     val thumb: String,
     val status: Int,

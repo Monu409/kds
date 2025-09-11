@@ -1,6 +1,6 @@
 package com.zotto.kds.localIP;
 
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -12,7 +12,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-@SuppressLint("StaticFieldLeak")
+//@SuppressLint("StaticFieldLeak")
 
 public class SendTask extends AsyncTask<Void, Void, String> {
     String msg;

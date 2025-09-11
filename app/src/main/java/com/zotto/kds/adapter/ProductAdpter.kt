@@ -76,107 +76,92 @@ class ProductAdpter() :
         var topping_name=itemView.findViewById<TextView>(R.id.topping_name)
 
 
-        fun bindProductData(product: Product){
-            var fmname=""
-            var detourname=""
-            var omname=""
-            var toppingname=""
-            quantity.text=product.quantity.toString()
-            product_name!!.text=product.name!!
-
+        fun bindProductData(product: Product) {
+            quantity.text = product.quantity.toString()
+            product_name!!.text = product.name!!
             try {
-                if(product.fmname != null && !product.fmname.isNullOrEmpty() && product.fmname!!.length>1){
-                    fmname = product.fmname!!
-                    Log.e("ProductFmName",product.fmname!!)
+//        Log.e("product json=", Gson().toJson(product).toString())
+//        Log.e("fm=", "" + product.fm!! + "-om-" + product.om!!)
 
-                }
-                if(product.omname != null && !product.omname.isNullOrEmpty() && product.omname!!.length>1){
-                    omname = product.omname!!
-                    Log.e("ProductOmName",product.omname!!)
-
-                }
-                if(product.detourname != null && !product.detourname.isNullOrEmpty() && product.detourname!!.length>1){
-                    detourname = product.detourname!!
-                    Log.e("ProductFDetourName",product.detourname!!)
-                }
-                Log.e("fm=",product.toString()+"--"+product.fm!!+"-om-"+product.om!!)
-                if (product.fm!! != null)
-                    for (modifier in product.fm!!){
-                        if (fmname.isNullOrEmpty()){
-                            fmname=modifier.fm_item_name!!
-                        }else{
-                            fmname=checkBlank(fmname,modifier.fm_item_name!!)+modifier.fm_item_name!!
+                var allModifiers = ""
+                if (product.fm != null)
+                    for (modifier in product.fm!!) {
+                        if (!modifier.fm_item_name.isNullOrEmpty()) {
+                            if (!modifier.fm_cat_name.isNullOrEmpty()) {
+                                if (allModifiers.contains(modifier.fm_cat_name!! + ": ")) {
+                                    allModifiers = allModifiers.replace(
+                                        modifier.fm_cat_name!! + ":",
+                                        "${modifier.fm_cat_name!!}: ${modifier.fm_item_name!!},"
+                                    )
+                                } else {
+                                    if (allModifiers.isNotEmpty())
+                                        allModifiers += "\n"
+                                    allModifiers += modifier.fm_cat_name!! + ": " + modifier.fm_item_name!!
+                                }
+                            } else {
+                                if (allModifiers.isNotEmpty())
+                                    allModifiers += "\n"
+                                allModifiers += modifier.fm_item_name!!
+                            }
                         }
                     }
-                if (product.detourom!! != null)
-                    for (modifier in product.detourom!!){
-                        if (detourname.isNullOrEmpty()){
-                            detourname=modifier.om_item_name!!
-                        }else{
-                            detourname=checkBlank(detourname,modifier.om_item_name!!)+modifier.om_item_name!!
-                        }
-                    }
-                if (product.om!! != null)
-                    for (modifier in product.om!!){
-                        if (omname.isNullOrEmpty()){
-                            omname=modifier.om_item_name!!
-                        }else{
-                            omname=checkBlank(omname,modifier.om_item_name!!)+modifier.om_item_name!!
+                if (product.detourom != null)
+                    for (modifier in product.detourom!!) {
+                        if (!modifier.om_item_name.isNullOrEmpty()) {
+                            if (allModifiers.isNotEmpty())
+                                allModifiers += "\n"
+                            allModifiers += modifier.om_item_name!!
                         }
                     }
 
-                if (!fmname.isNullOrEmpty() && !omname.isNullOrEmpty() && !detourname.isNullOrEmpty()){
-                    modifiersname.visibility=View.VISIBLE
-                    modifiersname.text=checkBlank(fmname,omname)+checkBlank(omname,detourname)+detourname
-
-                }else{
-                    if (fmname.isNullOrEmpty() && omname.isNullOrEmpty() && detourname.isNullOrEmpty()){
-                        modifiersname.visibility=View.GONE
-                    }else{
-                        modifiersname.visibility=View.VISIBLE
-                        if (!omname.isNullOrEmpty() && !detourname.isNullOrEmpty()){
-                            modifiersname.text=checkBlank(fmname,omname)+checkBlank(omname,detourname)+detourname
-                        }else if (!detourname.isNullOrEmpty()){
-                            modifiersname.text=checkBlank(fmname,detourname)+detourname
-                        }else if (!omname.isNullOrEmpty()){
-                            modifiersname.text=checkBlank(fmname,omname)+omname
-                        }else{
-                            modifiersname.text=checkBlank(fmname,omname)+checkBlank(omname,detourname)+detourname
+                if (product.om != null)
+                    for (modifier in product.om!!) {
+                        if (!modifier.om_item_name.isNullOrEmpty()) {
+                            if (!modifier.om_cat_name.isNullOrEmpty()) {
+                                if (allModifiers.contains(modifier.om_cat_name!! + ":")) {
+                                    allModifiers = allModifiers.replace(
+                                        modifier.om_cat_name!! + ":",
+                                        "${modifier.om_cat_name!!}: ${modifier.om_item_name!!},"
+                                    )
+                                } else {
+                                    if (allModifiers.isNotEmpty())
+                                        allModifiers += "\n"
+                                    allModifiers += modifier.om_cat_name!! + ": " + modifier.om_item_name!!
+                                }
+                            } else {
+                                if (allModifiers.isNotEmpty())
+                                    allModifiers += "\n"
+                                allModifiers += modifier.om_item_name!!
+                            }
                         }
-
                     }
 
+
+                if (allModifiers.isNotEmpty()) {
+                    modifiersname.visibility = View.VISIBLE
+                    modifiersname.text = allModifiers
+                } else {
+                    modifiersname.visibility = View.GONE
                 }
-                for (topping in product.topping!!){
-                    if (toppingname.isNullOrEmpty()){
-                        toppingname=topping.name!!
-                    }else{
-                        toppingname=checkBlank(toppingname,topping.name!!)+topping.name!!
+                var allTopping = ""
+                for (topping in product.topping!!) {
+                    if (!topping.name.isNullOrEmpty()) {
+                        if (allTopping.isNotEmpty())
+                            allTopping += ", "
+                        allTopping += topping.name!!
                     }
                 }
-                if (!toppingname.isNullOrEmpty()){
-                    topping_name.visibility=View.VISIBLE
-                    topping_name.text=toppingname
-                }else{
-                    topping_name.visibility=View.GONE
-                    topping_name.text=toppingname
+                if (allTopping.isNotEmpty()) {
+                    topping_name.visibility = View.VISIBLE
+                    topping_name.text = "Toppings: $allTopping"
+                } else {
+                    topping_name.visibility = View.GONE
                 }
 
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
-            }catch (e:NullPointerException){
+            } catch (e: NullPointerException) {
                 e.printStackTrace()
-            }
-
-
-
-        }
-
-        private fun checkBlank(firstName: String, secondName: String): String{
-            return when {
-                firstName.isEmpty() -> secondName
-                secondName.isEmpty() -> firstName
-                else -> "$firstName\n$secondName"
             }
         }
     }

@@ -89,3 +89,5 @@ interface ApiServices {
   ): Observable<BaseUrlModel>
 
 }
+
+//https://api.opushospitalitymanager.com/api/getKdsOrders

@@ -19,6 +19,7 @@ import com.zotto.kds.database.AppDatabase
 import com.zotto.kds.database.m_table.MCategoryData
 import com.zotto.kds.database.m_table.MProduct
 import com.zotto.kds.database.m_table.RootProductModel
+import com.zotto.kds.restapi.RetroClient
 import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
 import kotlinx.coroutines.CoroutineScope
@@ -80,7 +81,7 @@ class SyncDataActivity: AppCompatActivity() {
     inner class GetCategoryData() : AsyncTask<Unit, Unit, String>() {
         override fun doInBackground(vararg params: Unit?): String? {
             var restaurantId = SessionManager.getRestaurantId(this@SyncDataActivity)
-            val url = URL("https://demopay.z-pay.co.uk/api/getCategoryList/${restaurantId}")
+            val url = URL("${RetroClient.ROOT_LIVE_URL}api/getCategoryList/${restaurantId}")
             val httpClient = url.openConnection() as HttpURLConnection
             if (httpClient.responseCode == HttpURLConnection.HTTP_OK) {
                 try {
@@ -116,7 +117,7 @@ class SyncDataActivity: AppCompatActivity() {
         val mCatId: String = catId
         override fun doInBackground(vararg params: Unit?): String? {
             var restaurantId = SessionManager.getRestaurantId(this@SyncDataActivity)
-            val url = URL("https://demopay.z-pay.co.uk/api/getProductList/${restaurantId}/${mCatId}")
+            val url = URL("${RetroClient.ROOT_LIVE_URL}api/getProductList/${restaurantId}/${mCatId}")
             val httpClient = url.openConnection() as HttpURLConnection
             if (httpClient.responseCode == HttpURLConnection.HTTP_OK) {
                 try {
@@ -144,9 +145,9 @@ class SyncDataActivity: AppCompatActivity() {
         @JsonIgnore
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            Log.e("productdatatttttt",result!!)
+            Log.e("productdat11",result!!)
             val apiResponse = Gson().fromJson(result, RootProductModel::class.java)
-            Log.e("productdatatttttt",apiResponse.toString())
+            Log.e("productdat22",apiResponse.toString())
             try {
                 for (x in apiResponse.data) {
                     val jsonString = Gson().toJson(x)
