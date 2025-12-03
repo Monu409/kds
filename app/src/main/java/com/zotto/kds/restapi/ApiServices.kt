@@ -91,3 +91,7 @@ interface ApiServices {
 }
 
 //https://api.opushospitalitymanager.com/api/getKdsOrders
+
+//https://api.opushospitalitymanager.com/api/getKdsOrders
+
+//https://api.opushospitalitymanager.com/api/getKdsOrders
