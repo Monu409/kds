@@ -132,6 +132,7 @@ class HomeRepository(
     date: String,
     comments: String,
     orderid: String,
+    sequenceOrderId: String,
     status: String,
     time: String,
     prep_time: String,
@@ -146,6 +147,7 @@ class HomeRepository(
       jsonObj.put("date", date)
       jsonObj.put("comments", comments)
       jsonObj.put("orderid", orderid)
+      jsonObj.put("sequence_order_id", sequenceOrderId)
       jsonObj.put("status", status)
       jsonObj.put("time", time)
       jsonObj.put("prep_time", prep_time)
@@ -204,6 +206,7 @@ class HomeRepository(
     try {
       messageJson.put("restId", getRestaurantId(context))
       messageJson.put("orderid", orderid)
+      messageJson.put("sequence_order_id", orders.sequence_order_id)
       messageJson.put("status", "Ready")
       messageJson.put("time", orders.delivery_time)
       messageJson.put("location", orders.order_location)
@@ -304,6 +307,7 @@ class HomeRepository(
         messageJson.put("rname", orderDao.getOrder(product.order_id!!).rname)
         messageJson.put("chain_id", "8")
         messageJson.put("orderid", jsonObject.getString("orderid"))
+        messageJson.put("sequence_order_id", jsonObject.getString("sequence_order_id"))
         messageJson.put("status", "Ready")
         messageJson.put("name", jsonObject.getString("name"))
         messageJson.put("ticket_id", product.ticket_id)
