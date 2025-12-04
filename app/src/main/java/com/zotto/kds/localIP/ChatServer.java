@@ -180,6 +180,7 @@ public class ChatServer extends Thread {
             try {
                 messageJson.put("restId", SessionManager.getRestaurantId(context));
                 messageJson.put("orderid", orders.getJSONObject(0).getString("order_id"));
+                messageJson.put("sequence_order_id", orders.getJSONObject(0).getString("sequence_order_id"));
                 messageJson.put("time", orders.getJSONObject(0).getString("delivery_time"));
                 messageJson.put("status", orders.getJSONObject(0).getString("order_status"));
                 messageJson.put("location", orders.getJSONObject(0).getString("order_location"));

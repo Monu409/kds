@@ -85,7 +85,8 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         tableNumber.visibility = View.GONE
       }
       else{
-        tableNumber.text = "T-${order.pos_table_name}"
+//        tableNumber.text = "T-${order.pos_table_name}"
+        tableNumber.text = ""
       }
       if (order.order_location.equals("pos")) {
         if (!order.pos_table_name.isNullOrEmpty() && !order.pos_table_name.equals("Quick Serve")) {
@@ -107,10 +108,14 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //      else{
 //        table_name.text = table_name.text.toString() + " (Self)"
 //      }
+      if(order.sequence_order_id.equals("0")){
+        order_id.text = "#" + order.order_id!!.substring(order.order_id!!.length - 5, order.order_id!!.length)
+      }
+      else{
+        order_id.text = "#" + order.sequence_order_id
+      }
+//        "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
 
-      order_id.text =
-        "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
-//        "#" + order.sequence_order_id
       if (order.delivery_firstname.isNullOrEmpty() && order.delivery_lastname.isNullOrEmpty()) {
         customer_name.text = "Guest"
       } else {
@@ -197,8 +202,6 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
       var homeFragment = HomeFragment()
       homeFragment.startSpeech("Hi there! order "+order.sequence_order_id+ "is ready now.", "")
       orderOnClickListner.updateOrder(position, order)
-
-//      order.delivery_time?.let { it1 -> compareTimes(it1) }
     }
 
     holder.mPrintOrder.setOnClickListener{
