@@ -45,6 +45,7 @@ import com.zotto.kds.ui.dialog.ProductUnavailable
 import com.zotto.kds.ui.main.MainActivity
 import com.zotto.kds.utils.SessionManager
 import com.zotto.kds.utils.Singleton
+import okhttp3.internal.notifyAll
 import java.util.*
 
 
@@ -141,8 +142,8 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
 
     order_recycleview = binding!!.orderRecycleview
     order_recycleview!!.layoutManager = mGridLayoutManager
-    order_recycleview!!.layoutDirection = View.LAYOUT_DIRECTION_RTL
-    order_recycleview!!.setItemAnimator(DefaultItemAnimator())
+//    order_recycleview!!.layoutDirection = View.LAYOUT_DIRECTION_LTR
+//    order_recycleview!!.setItemAnimator(DefaultItemAnimator())
     order_recycleview!!.setHasFixedSize(true)
     order_recycleview!!.adapter = orderAdapter
 
@@ -207,7 +208,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             completedorderAdapter =
-              CompletedOrderAdapter(it, requireActivity()!!, this@HomeFragment,this@HomeFragment)
+              CompletedOrderAdapter(it.reversed(), requireActivity()!!, this@HomeFragment,this@HomeFragment)
 //            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
             order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
             order_recycleview!!.setItemAnimator(DefaultItemAnimator())

@@ -32,8 +32,8 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
     try {
 
       jsonObj.put("restId", SessionManager.getRestaurantId(homeRepository.context))
-//      jsonObj.put("today", Utility.getCurrentDate())
-      jsonObj.put("today", "2025-09-23")
+      jsonObj.put("today", Utility.getCurrentDate())
+//      jsonObj.put("today", "2025-09-23")
       jsonObj.put("offSet", PAGE_SIZE)
       jsonObj.put("pageLimit", FIRST_PAGE)
       //print parameter
@@ -68,11 +68,11 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
         PAGE_SIZE = PAGE_SIZE + 1
         if (response.getData()!!.size > 0) {
           if (homeRepository.orderDao!!.isOrderExist(
-              response.getData()!!.get(0).order_id!!
+              response.getData()!!.asReversed().get(0).order_id!!
             ) == null
           ) {
-            homeRepository.orderDao!!.insertOrder(response.getData()!!.get(0))
-            homeRepository.productDao!!.insertProductList(response.getData()!!.get(0).products!!)
+            homeRepository.orderDao!!.insertOrder(response.getData()!!.asReversed().get(0))
+            homeRepository.productDao!!.insertProductList(response.getData()!!.asReversed().get(0).products!!)
           }
         }
       }
@@ -81,6 +81,40 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
       e.printStackTrace()
     }
   }
+
+//  private fun onResponse(response: GenericResponse<List<Order>>) {
+//    try {
+//      if (response.getStatus() == "200") {
+//
+//        val orders = response.getData().orEmpty()
+//
+//        if (orders.isNotEmpty()) {
+//
+//          // ✅ reverse list here
+//          val reversedOrders = orders.asReversed()
+//
+//          PAGE_SIZE += 1
+//
+//          // use first item from reversed list
+//          val firstOrder = reversedOrders[0]
+//
+//          if (homeRepository.orderDao!!
+//              .isOrderExist(firstOrder.order_id!!) == null
+//          ) {
+//            homeRepository.orderDao!!.insertOrder(firstOrder)
+//            homeRepository.productDao!!.insertProductList(firstOrder.products!!)
+//          }
+//
+//          // ✅ send reversed list to UI
+////          orderAdapter.submitList(reversedOrders)
+//        }
+//      }
+//
+//    } catch (e: Exception) {
+//      e.printStackTrace()
+//    }
+//  }
+
 
   private fun onFailure(t: Throwable) {
     t.printStackTrace()

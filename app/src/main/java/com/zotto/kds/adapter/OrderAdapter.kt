@@ -45,8 +45,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner) :
-  PagedListAdapter<Order, OrderAdapter.MyViewHolder>(DiffUtil()) {
+class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner) : PagedListAdapter<Order, OrderAdapter.MyViewHolder>(DiffUtil()) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.orders_row, parent, false)
@@ -172,7 +171,6 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 
   class DiffUtil : androidx.recyclerview.widget.DiffUtil.ItemCallback<Order>() {
     override fun areItemsTheSame(oldItem: Order, newItem: Order): Boolean {
-
       return oldItem.order_id == newItem.order_id
     }
 

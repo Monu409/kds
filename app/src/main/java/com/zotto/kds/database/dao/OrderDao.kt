@@ -15,10 +15,10 @@ interface OrderDao {
   @Query("SELECT * FROM `order`  ORDER BY order_time DESC LIMIT 1")
   fun getAllOrder(): List<Order>?
 
-  @Query("SELECT * FROM `order` WHERE order_status ='Ready' ORDER BY order_time DESC LIMIT 1")
+  @Query("SELECT * FROM `order` WHERE order_status ='Ready'")
   fun getAllCompletedOrder(): List<Order>?
 
-  @Query("SELECT * FROM `order`  WHERE order_status ='Confirm' OR order_status ='New' ORDER BY order_time DESC")
+  @Query("SELECT * FROM `order`  WHERE order_status ='Confirm' OR order_status ='New'")
   @Transaction
   fun getAllDatasourceActiveOrder(): DataSource.Factory<Int, Order>
 

@@ -234,7 +234,7 @@ class HomeRepository(
     try {
       Log.e("onUpdateOrderResponse=", response)
       var jsonObject = JSONObject(response)
-      if (jsonObject.getString("RESULT").equals("success")) {
+      if (jsonObject.getString("message").equals("success")) {
         var productList = kotlin.collections.ArrayList<Product>()
         productList.addAll(productDao!!.getProduct(orderid)!!)
         if (productList.size > 0) {

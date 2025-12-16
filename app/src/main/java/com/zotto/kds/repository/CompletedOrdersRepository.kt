@@ -29,6 +29,7 @@ class CompletedOrdersRepository(var context: Context, var orderDao: OrderDao, va
             jsonObj.put("date", date)
             jsonObj.put("comments", comments)
             jsonObj.put("orderid", orderid)
+            jsonObj.put("sequence_order_id", orderid)
             jsonObj.put("status", status)
             jsonObj.put("time", time)
             jsonObj.put("prep_time", prep_time)

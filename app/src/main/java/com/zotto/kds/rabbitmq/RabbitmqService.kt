@@ -85,7 +85,7 @@ class RabbitmqService:Service() {
             override fun handleMessage(msg: Message) {
                 try {
                     val message = """ ${msg.data.getString("data")}""".trimIndent()
-                    Log.e("request12", message)
+                    Log.e("request12", message);
                   //  writeLogCat(message)
                     val json = JSONObject(message)
 //                    val json = JSONObject("{\"type\":\"order_notification\",\"message\":{\"restId\":\"43358486\",\"ruleId\":1,\"orderId\":\"1817154939152\",\"productIds\":\"[DC0BJF9YAKIIE]\"}}")

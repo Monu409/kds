@@ -50,7 +50,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
       Singleton.ordertype
     )
     if (Singleton.ordertype.equals("active")) {
-      var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()
+      var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()!!.asReversed()
       if (!allActiveOrder.isNullOrEmpty()) {
         Singleton.isactiveclicked = false
         var products: ArrayList<Product>? = ArrayList()
