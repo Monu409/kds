@@ -33,7 +33,7 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
 
       jsonObj.put("restId", SessionManager.getRestaurantId(homeRepository.context))
       jsonObj.put("today", Utility.getCurrentDate())
-//      jsonObj.put("today", "2025-09-23")
+//      jsonObj.put("today", "2025-12-18")
       jsonObj.put("offSet", PAGE_SIZE)
       jsonObj.put("pageLimit", FIRST_PAGE)
       //print parameter
@@ -71,8 +71,9 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
               response.getData()!!.asReversed().get(0).order_id!!
             ) == null
           ) {
-            homeRepository.orderDao!!.insertOrder(response.getData()!!.asReversed().get(0))
-            homeRepository.productDao!!.insertProductList(response.getData()!!.asReversed().get(0).products!!)
+            val columnWiseList = toColumnWise(response.getData()!!, 3)
+            homeRepository.orderDao!!.insertOrder(columnWiseList.get(0))
+            homeRepository.productDao!!.insertProductList(columnWiseList.get(0).products!!)
           }
         }
       }
@@ -80,6 +81,22 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
     } catch (e: Exception) {
       e.printStackTrace()
     }
+  }
+
+  fun <T> toColumnWise(list: List<T>, spanCount: Int): List<T> {
+    val result = mutableListOf<T>()
+
+    val rows = Math.ceil(list.size / spanCount.toDouble()).toInt()
+
+    for (col in 0 until spanCount) {
+      for (row in 0 until rows) {
+        val index = row * spanCount + col
+        if (index < list.size) {
+          result.add(list[index])
+        }
+      }
+    }
+    return result
   }
 
 //  private fun onResponse(response: GenericResponse<List<Order>>) {

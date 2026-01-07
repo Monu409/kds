@@ -19,7 +19,8 @@ class SummaryRepository(var context: Context, var orderDao: OrderDao) {
          Log.e("SummaryRepository=",orderDao.getAllActiveOrder()!!.size.toString()+"-value-"
                  + orderListMutableLiveData!!.value+"-ordertype-"+Singleton.ordertype)
        if (Singleton.ordertype.equals("active")){
-           orderListMutableLiveData!!.postValue(orderDao.getAllActiveOrder())
+           val columnWiseList = toColumnWise(orderDao.getAllActiveOrder()!!, 3)
+           orderListMutableLiveData!!.postValue(columnWiseList)
            if (orderDao.getAllActiveOrder()!!.size>0){
                Log.e("SummaryRepository =",orderDao.getAllActiveOrder()!!.get(0).products!!.size.toString()+"--"
                        +productList.size+"--"+Singleton.isactiveclicked)
@@ -41,6 +42,23 @@ class SummaryRepository(var context: Context, var orderDao: OrderDao) {
        }
 
     }
+
+    fun <T> toColumnWise(list: List<T>, spanCount: Int): List<T> {
+        val result = mutableListOf<T>()
+
+        val rows = Math.ceil(list.size / spanCount.toDouble()).toInt()
+
+        for (col in 0 until spanCount) {
+            for (row in 0 until rows) {
+                val index = row * spanCount + col
+                if (index < list.size) {
+                    result.add(list[index])
+                }
+            }
+        }
+        return result
+    }
+
     fun deleteAllDataFromSummary(){
         orderListMutableLiveData!!.postValue(null)
         productListMutableLiveData!!.postValue(null)

@@ -61,6 +61,10 @@ class CompletedOrderAdapter(val orderList: List<Order>, var context: Context,var
                 LinearLayoutManager.VERTICAL,
                 false
             )
+            product_recyclerView.apply {
+                isNestedScrollingEnabled = false
+                setHasFixedSize(false)
+            }
             product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
             var productAdapter = ProductAdpter(order.products!!, context,this)
             productAdapter.submitList(order.products!!)

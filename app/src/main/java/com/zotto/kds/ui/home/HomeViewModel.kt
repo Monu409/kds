@@ -51,10 +51,11 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
     )
     if (Singleton.ordertype.equals("active")) {
       var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()!!.asReversed()
-      if (!allActiveOrder.isNullOrEmpty()) {
+      val columnWiseList = toColumnWise(allActiveOrder!!, 3)
+      if (!columnWiseList.isNullOrEmpty()) {
         Singleton.isactiveclicked = false
         var products: ArrayList<Product>? = ArrayList()
-        for (order in allActiveOrder) {
+        for (order in columnWiseList) {
 //          var listProducts = Utility().convertJsonToList(context)
 //          for (product in order.products!!) {
 //            listProducts.forEach { (key, value) ->
@@ -71,7 +72,7 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
           Log.e("getProducts data=", "$products")
           productListMutableLiveData!!.postValue(products)
         }
-      } else if (allActiveOrder != null && allActiveOrder.isEmpty()) {
+      } else if (columnWiseList != null && columnWiseList.isEmpty()) {
         productListMutableLiveData!!.postValue(emptyList())
       }
     }
@@ -91,6 +92,22 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
     }
 
   }
+
+  private fun <T> toColumnWise(list: List<T>, spanCount: Int): List<T> {
+    val result = mutableListOf<T>()
+    val rows = Math.ceil(list.size / spanCount.toDouble()).toInt()
+
+    for (col in 0 until spanCount) {
+      for (row in 0 until rows) {
+        val index = row * spanCount + col
+        if (index < list.size) {
+          result.add(list[index])
+        }
+      }
+    }
+    return result
+  }
+
 
 //  fun getAllOrderFromLocal() {
 //    Log.e(

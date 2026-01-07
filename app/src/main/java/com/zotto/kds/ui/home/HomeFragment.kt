@@ -138,19 +138,19 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
 //    Toast.makeText(requireActivity(), "margin_standard: $marginStandard pixels", Toast.LENGTH_LONG).show()
 
 
-    val mGridLayoutManager = GridLayoutManager(context, 3)
+    val mGridLayoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
+//    val mGridLayoutManager = GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
+//    val mGridLayoutManager = StaggeredGridLayoutManager(2 , LinearLayoutManager.HORIZONTAL)
 
     order_recycleview = binding!!.orderRecycleview
     order_recycleview!!.layoutManager = mGridLayoutManager
-//    order_recycleview!!.layoutDirection = View.LAYOUT_DIRECTION_LTR
-//    order_recycleview!!.setItemAnimator(DefaultItemAnimator())
     order_recycleview!!.setHasFixedSize(true)
     order_recycleview!!.adapter = orderAdapter
 
     var hprtPrinterPrinting = HPRTPrinterPrinting(requireActivity())
     hprtPrinterPrinting.printerPermission(requireActivity())
     hprtPrinterPrinting.openUSBPrintingPort(requireActivity())
-    homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner, Observer {
+    homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner) {
       try {
 //        Log.e(
 //          "orderstatus==",
@@ -169,10 +169,24 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             orderAdapter = OrderAdapter(requireActivity()!!, this@HomeFragment)
-//            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
-            order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
-            order_recycleview!!.setItemAnimator(DefaultItemAnimator())
-            order_recycleview!!.setHasFixedSize(true)
+            order_recycleview!!.layoutManager = GridLayoutManager(context, 3,RecyclerView.VERTICAL, false)
+            order_recycleview!!.layoutManager =
+              GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
+//            val orderLayoutManager = StaggeredGridLayoutManager(
+//              0 ,
+//              LinearLayoutManager.HORIZONTAL
+//            ).apply {
+//              gapStrategy =
+//                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
+//            }
+//            order_recycleview.apply {
+//              layoutManager = orderLayoutManager
+//              adapter = orderAdapter
+//              setHasFixedSize(false)
+//              itemAnimator = null
+//            }
+//            order_recycleview!!.setItemAnimator(DefaultItemAnimator())
+//            order_recycleview!!.setHasFixedSize(true)
           }
 
           if (it != null && it.size > 0 && !it.get(0)!!.order_status.equals("Ready")) {
@@ -208,9 +222,16 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             completedorderAdapter =
-              CompletedOrderAdapter(it.reversed(), requireActivity()!!, this@HomeFragment,this@HomeFragment)
-//            order_recycleview!!.layoutManager = GridLayoutManager(context, 3)
-            order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.VERTICAL)
+              CompletedOrderAdapter(
+                it.reversed(),
+                requireActivity()!!,
+                this@HomeFragment,
+                this@HomeFragment
+              )
+//            order_recycleview!!.layoutManager = GridLayoutManager(context, 3,RecyclerView.VERTICAL, false)
+//            order_recycleview!!.layoutManager =
+//              GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
+            order_recycleview!!.layoutManager = StaggeredGridLayoutManager(3 , LinearLayoutManager.HORIZONTAL)
             order_recycleview!!.setItemAnimator(DefaultItemAnimator())
             order_recycleview!!.setHasFixedSize(true)
           }
@@ -228,7 +249,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
       } catch (e: NullPointerException) {
         e.printStackTrace()
       }
-    })
+    }
     homeViewModel!!.productlivedata.observe(viewLifecycleOwner) {
 
       summary_layout!!.removeAllViews()
@@ -301,6 +322,7 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
       })
     return binding!!.root
   }
+
 
   override fun onDestroyView() {
     super.onDestroyView()
@@ -442,9 +464,9 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
     if (orderAdapter != null) {
       orderAdapter!!.notifyItemChanged(position)
       if (position == 0) {
-        homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner, Observer {
+        homeViewModel!!.orderlivedata!!.observe(viewLifecycleOwner) {
           orderAdapter!!.submitList(it!!)
-        })
+        }
 //        orderAdapter!!.submitList(null)
         homeViewModel!!.getAllOrderFromLocal(requireActivity())
       }

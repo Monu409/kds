@@ -45,10 +45,19 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner) : PagedListAdapter<Order, OrderAdapter.MyViewHolder>(DiffUtil()) {
+class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickListner,private var itemWidth: Int = 0) : PagedListAdapter<Order, OrderAdapter.MyViewHolder>(DiffUtil()) {
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
     val view = LayoutInflater.from(parent.context).inflate(R.layout.orders_row, parent, false)
+    if (itemWidth == 0) {
+      val displayMetrics = parent.context.resources.displayMetrics
+      itemWidth = displayMetrics.widthPixels / 4
+    }
+
+    view.layoutParams = view.layoutParams.apply {
+      width = itemWidth
+    }
+
     return MyViewHolder(view, context, orderOnClickListner)
   }
 
@@ -67,23 +76,21 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     var order_header = itemView.findViewById<ConstraintLayout>(R.id.order_header)
     var mComment = itemView.findViewById<TextView>(R.id.comment)
     var mPrintOrder = itemView.findViewById<ImageView>(R.id.print_order_img)
-//    var mBump = itemView.findViewById<TextView>(R.id.bump)
+
+    //    var mBump = itemView.findViewById<TextView>(R.id.bump)
 //    var blinkView = itemView.findViewById<View>(R.id.blink_view)
     var mainLayout = itemView.findViewById<RelativeLayout>(R.id.main_layout)
 
 
-
     fun bindData(order: Order) {
-      if(order.comments!!.isEmpty()){
+      if (order.comments!!.isEmpty()) {
         mComment.visibility = View.GONE
-      }
-      else{
+      } else {
         mComment.text = order.comments
       }
-      if(order.pos_table_name!!.isEmpty()){
+      if (order.pos_table_name!!.isEmpty()) {
         tableNumber.visibility = View.GONE
-      }
-      else{
+      } else {
 //        tableNumber.text = "T-${order.pos_table_name}"
         tableNumber.text = ""
       }
@@ -98,7 +105,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
           }
         }
       } else {
-        table_name.text = order.delivery_option!!.replace("_"," ")
+        table_name.text = order.delivery_option!!.replace("_", " ")
       }
 
       if (order.order_from != null) {
@@ -107,10 +114,10 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //      else{
 //        table_name.text = table_name.text.toString() + " (Self)"
 //      }
-      if(order.sequence_order_id.equals("0")){
-        order_id.text = "#" + order.order_id!!.substring(order.order_id!!.length - 5, order.order_id!!.length)
-      }
-      else{
+      if (order.sequence_order_id.equals("0")) {
+        order_id.text =
+          "#" + order.order_id!!.substring(order.order_id!!.length - 5, order.order_id!!.length)
+      } else {
         order_id.text = "#" + order.sequence_order_id
       }
 //        "#" + order.order_id!!.substring(order.order_id!!.length - 4, order.order_id!!.length)
@@ -121,14 +128,18 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         customer_name.text = order.delivery_firstname + " " + order.delivery_lastname
       }
 
-      if(order.order_time?.length!! > 5){
-        preparing_time.text = order.order_time?.removeRange(5,8) ?: ""
+      if (order.order_time?.length!! > 5) {
+        preparing_time.text = order.order_time?.removeRange(5, 8) ?: ""
       }
       product_recyclerView!!.layoutManager = LinearLayoutManager(
         context,
         LinearLayoutManager.VERTICAL,
         false
       )
+      product_recyclerView.apply {
+        isNestedScrollingEnabled = false
+        setHasFixedSize(false)
+      }
       product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
 //      var productsFilter: ArrayList<Product>? = ArrayList<Product>()
 //      var listProducts = Utility().convertJsonToList(context)
@@ -142,10 +153,10 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //          }
 //        }
 //      }
-      if(order.products!!.isEmpty()){
+      if (order.products!!.isEmpty()) {
         mainLayout.visibility = View.GONE
       }
-      var productAdapter = ProductAdpter(order.products!!, context!!,this)
+      var productAdapter = ProductAdpter(order.products!!, context!!, this)
       productAdapter.submitList(order.products!!)
       product_recyclerView!!.adapter = productAdapter
       productAdapter!!.notifyDataSetChanged()
@@ -181,7 +192,7 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 
   }
 
-//  @RequiresApi(Build.VERSION_CODES.O)
+  //  @RequiresApi(Build.VERSION_CODES.O)
   override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
     var order = getItem(position)
     if (order != null) {
@@ -197,19 +208,19 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //    holder.blinkView.visibility = View.VISIBLE
     holder.order_header.setOnClickListener {
       order!!.order_status = "Ready"
-      var homeFragment = HomeFragment()
-      homeFragment.startSpeech("Hi there! order "+order.sequence_order_id+ "is ready now.", "")
+//      var homeFragment = HomeFragment()
+//      homeFragment.startSpeech("Hi there! order " + order.sequence_order_id + "is ready now.", "")
       orderOnClickListner.updateOrder(position, order)
     }
 
-    holder.mPrintOrder.setOnClickListener{
-        val hprtPrinterPrinting = HPRTPrinterPrinting(context)
-        if (order != null) {
-          hprtPrinterPrinting.kitchenReciept(
-            order.products!!, order.order_id!!,context
-          )
+    holder.mPrintOrder.setOnClickListener {
+      val hprtPrinterPrinting = HPRTPrinterPrinting(context)
+      if (order != null) {
+        hprtPrinterPrinting.kitchenReciept(
+          order.products!!, order.order_id!!, context
+        )
 //          PrintingOther(context).connectReceiptUsb()
-        }
+      }
     }
 
 //    holder.mBump.setOnClickListener{
@@ -259,11 +270,11 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 
   private fun onResponse(response: String) {
     try {
-      Log.e("response",response)
+      Log.e("response", response)
       val jsonObj = JSONObject(response)
       val resultBool = jsonObj.getBoolean("result")
-      if(resultBool){
-        Toast.makeText(context,"Order send to other KDS",Toast.LENGTH_LONG).show()
+      if (resultBool) {
+        Toast.makeText(context, "Order send to other KDS", Toast.LENGTH_LONG).show()
       }
     } catch (e: Exception) {
       e.printStackTrace()
@@ -280,65 +291,4 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     fun updateProductTicket(product: com.zotto.kds.database.table.Product)
     fun cancelProduct(product: com.zotto.kds.database.table.Product)
   }
-
-////  @RequiresApi(Build.VERSION_CODES.O)
-//@RequiresApi(Build.VERSION_CODES.O)
-//fun compareTimes(deliveryTime: String?):Boolean{
-//    var shouldBlink = false
-//    val formatter = DateTimeFormatter.ofPattern("HH:mm")
-//
-//    try {
-//      val time: LocalTime = LocalTime.parse(deliveryTime, formatter)
-//      println("Parsed time: $time")
-//      val sdf = SimpleDateFormat("HH:mm")
-//      val currentDate = sdf.format(Date())
-//
-//      val d: Duration = Duration.between(
-//        LocalTime.parse(currentDate, formatter),
-//        time
-//      )
-//      Log.e("xcvb",d.toMinutes().toString())
-//      if(d.toMinutes()<=10){
-//        shouldBlink = true
-//      }
-//    } catch (e: DateTimeParseException) {
-//      println("Error parsing time: $e")
-//    }
-//    return shouldBlink;
-//  }
-
-
-////@RequiresApi(Build.VERSION_CODES.O)
-//fun compareTimes1(deliveryTime: String?):Boolean {
-//  // Define the input and output date formats
-//  val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-//  val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
-//
-//  // Parse the input date string into a Date object
-//  val date = inputFormat.parse(inputDate)
-//
-//  // Format the Date object into the desired output format
-//  return date?.let {
-//    outputFormat.format(it)
-//  }
-//}
-
 }
-
-
-/*
-* KDS - Bugs:
-
-1. Online Kiosk orders are not coming
-//2. Remove the cookie arriving with order
-//3. Summary is not working----
-//4. I can not choose to Close individual product
-5. When Order is closed in KDS on the CDS it should move to Ready
-6. Space between the amount and start of Dish name
-//7. Remove BUMP----
-8. New orders should come on the Bottom right side ( Orders are random )
-//9. Comment is not coming-----
-//10. Allergi is not coming
-11.  Auto Printing is not working
-12. Printing button os Missing
-13.  App crash when you goto Closed orders and click a close order Dish ( not make it new).*/

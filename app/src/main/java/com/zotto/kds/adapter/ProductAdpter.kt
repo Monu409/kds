@@ -48,6 +48,13 @@ class ProductAdpter() :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var product=productList!!.get(position)
         holder.bindProductData(product)
+        val params = holder.itemView.layoutParams
+        params.height = if (position % 2 == 0) {
+            300
+        } else {
+            500
+        }
+        holder.itemView.layoutParams = params
         if (product.status.equals("Ready")){
             holder.quantity.setTextColor(context!!.resources.getColor(R.color.colorChatelle))
             holder.product_name.setTextColor(context!!.resources.getColor(R.color.colorChatelle))

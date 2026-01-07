@@ -118,6 +118,10 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         LinearLayoutManager.VERTICAL,
         false
       )
+      product_recyclerView.apply {
+                      isNestedScrollingEnabled = false
+                      setHasFixedSize(false)
+                  }
       product_recyclerView!!.setItemAnimator(DefaultItemAnimator())
       var productsFilter: ArrayList<Product>? = ArrayList<Product>()
       var listProducts = Utility().convertJsonToList(context)

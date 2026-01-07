@@ -1,10 +1,12 @@
 package com.zotto.kds.repository
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.FragmentManager
+import com.zotto.kds.R
 import com.zotto.kds.adapter.OrderAdapter
 import com.zotto.kds.database.dao.OrderDao
 import com.zotto.kds.database.dao.ProductDao
@@ -86,7 +88,8 @@ class HomeRepository(
 //            }
             Singleton.isactiveclicked = false
             var homeFragment = HomeFragment()
-            homeFragment.startSpeech("Hi there! New order arrive. Please check.", "")
+//            homeFragment.startSpeech("Hi there! New order arrive. Please check.", "")
+            playNewOrderSound()
             if (SessionManager.isAutoPrint(context)) {
               var hprtPrinterPrinting = HPRTPrinterPrinting(context)
               hprtPrinterPrinting.kitchenReciept(
@@ -122,6 +125,14 @@ class HomeRepository(
       }
    // }
 
+  }
+
+  private var mediaPlayer: MediaPlayer? = null
+
+  fun playNewOrderSound() {
+    mediaPlayer?.release()
+    mediaPlayer = MediaPlayer.create(context, R.raw.kitchen_tone)
+    mediaPlayer?.start()
   }
 
   private fun onSingleOrderFailure(t: Throwable) {
