@@ -131,7 +131,7 @@ class HomeRepository(
 
   fun playNewOrderSound() {
     mediaPlayer?.release()
-    mediaPlayer = MediaPlayer.create(context, R.raw.kitchen_tone)
+    mediaPlayer = MediaPlayer.create(context, R.raw.kitchen_tone2)
     mediaPlayer?.start()
   }
 

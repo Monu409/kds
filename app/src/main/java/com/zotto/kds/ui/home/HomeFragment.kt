@@ -169,9 +169,9 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             orderAdapter = OrderAdapter(requireActivity()!!, this@HomeFragment)
-            order_recycleview!!.layoutManager = GridLayoutManager(context, 3,RecyclerView.VERTICAL, false)
+            order_recycleview!!.layoutManager = GridLayoutManager(context, 1,RecyclerView.VERTICAL, false)
             order_recycleview!!.layoutManager =
-              GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
+              GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
 //            val orderLayoutManager = StaggeredGridLayoutManager(
 //              0 ,
 //              LinearLayoutManager.HORIZONTAL

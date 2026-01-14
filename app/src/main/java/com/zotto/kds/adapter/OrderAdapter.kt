@@ -42,6 +42,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 import java.util.*
 import java.text.SimpleDateFormat
+import java.time.ZoneId
 import java.util.Locale
 
 
@@ -128,9 +129,14 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
         customer_name.text = order.delivery_firstname + " " + order.delivery_lastname
       }
 
-      if (order.order_time?.length!! > 5) {
-        preparing_time.text = order.order_time?.removeRange(5, 8) ?: ""
-      }
+//      if (order.order_time?.length!! > 5) {
+//        preparing_time.text = order.order_time?.removeRange(5, 8) ?: ""
+//      }
+
+      val millis = stringToMillis(order.order_date!!, order.order_time!!)
+      val timeAgo = getTimeAgo(millis)
+      preparing_time.text = timeAgo
+
       product_recyclerView!!.layoutManager = LinearLayoutManager(
         context,
         LinearLayoutManager.VERTICAL,
@@ -177,6 +183,44 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
 //    override fun updateProduct(product: Product) {
 //      orderOnClickListner.updateProduct(product)
 //    }
+
+    fun stringToMillis(dateStr: String, timeStr: String): Long {
+      val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+      inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+      val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+      val date = inputFormat.parse(dateStr)
+
+      var formatDate = outputFormat.format(date!!)
+      val format = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
+      var dateTime = "$formatDate $timeStr"
+      return format.parse(dateTime)?.time ?: 0L
+    }
+
+    fun getTimeAgo(timeMillis: Long): String {
+      val now = System.currentTimeMillis()
+      if (timeMillis > now || timeMillis <= 0) {
+        return "just now"
+      }
+
+      val diff = now - timeMillis
+
+      val second = 1000L
+      val minute = 60 * second
+      val hour = 60 * minute
+      val day = 24 * hour
+
+      return when {
+        diff < minute -> "just now"
+        diff < 2 * minute -> "one min ago"
+        diff < 60 * minute -> "${diff / minute} min ago"
+        diff < 2 * hour -> "1 hr ago"
+        diff < 24 * hour -> "${diff / hour} hr ago"
+        diff < 2 * day -> "yesterday"
+        else -> "${diff / day} days ago"
+      }
+    }
+
   }
 
 
@@ -291,4 +335,5 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
     fun updateProductTicket(product: com.zotto.kds.database.table.Product)
     fun cancelProduct(product: com.zotto.kds.database.table.Product)
   }
+
 }
