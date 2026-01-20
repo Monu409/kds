@@ -124,7 +124,7 @@ public class MultiSpinner extends AppCompatSpinner implements DialogInterface.On
 
     @Override
     public boolean performClick() {
-        final Dialog dialog = new Dialog(getContext(), R.style.Theme_AppCompat_DayNight_Dialog);
+        final Dialog dialog = new Dialog(getContext(), androidx.appcompat.R.style.Theme_AppCompat_DayNight_Dialog);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog1);
 

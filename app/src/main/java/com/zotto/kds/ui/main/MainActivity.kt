@@ -5,6 +5,8 @@ import android.app.ActivityManager
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -62,6 +64,9 @@ class MainActivity : AppCompatActivity() {
     private var rotateBackward: Animation? = null
     private var isOpen = false
     private var chatServer: ChatServer? = null
+
+    private var handler: Handler? = null
+    private var runnable: Runnable? = null
 
     companion object {
         var activeOrders: TextView? = null
@@ -169,6 +174,24 @@ class MainActivity : AppCompatActivity() {
         binding!!.appBarMain.robotoTxt.visibility = View.GONE
         binding!!.appBarMain.chargingTxt.visibility = View.GONE
         binding!!.appBarMain.waiterTxt.visibility = View.GONE
+
+
+        handler = Handler(Looper.getMainLooper())
+        runnable = object : Runnable {
+            override fun run() {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(
+                        R.id.root_container,
+                        HomeFragment(),
+                        HomeFragment::class.java.simpleName
+                    )
+                    .commitAllowingStateLoss()
+
+                handler!!.postDelayed(this, 60_000)
+            }
+        }
+
         val hprtPrinterPrinting = HPRTPrinterPrinting(this)
         hprtPrinterPrinting.printerPermission(this)
         hprtPrinterPrinting.openUSBPrintingPort(this)
@@ -332,6 +355,16 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
 //        Utility.robotLog("start log......")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        handler!!.post(runnable!!)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        handler!!.removeCallbacks(runnable!!)
     }
 
     private fun animateFab() {

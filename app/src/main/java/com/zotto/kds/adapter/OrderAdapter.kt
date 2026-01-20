@@ -197,30 +197,33 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
       return format.parse(dateTime)?.time ?: 0L
     }
 
-    fun getTimeAgo(timeMillis: Long): String {
-      val now = System.currentTimeMillis()
-      if (timeMillis > now || timeMillis <= 0) {
-        return "just now"
+      fun getTimeAgo(timeMillis: Long): String {
+          val now = System.currentTimeMillis()
+          if (timeMillis > now || timeMillis <= 0) {
+              return "0min"
+          }
+
+          val diff = now - timeMillis
+
+          val minute = 60_000L
+          val hour = 60 * minute
+          val day = 24 * hour
+
+          val days = diff / day
+          val hours = (diff % day) / hour
+          val minutes = (diff % hour) / minute
+
+          return when {
+              days > 0 -> {
+                  if (hours > 0) "${days}d ${hours}h" else "${days}d"
+              }
+              hours > 0 -> {
+                  if (minutes > 0) "${hours}h ${minutes}m" else "${hours}h"
+              }
+              minutes > 0 -> "${minutes}m"
+              else -> "0m"
+          }
       }
-
-      val diff = now - timeMillis
-
-      val second = 1000L
-      val minute = 60 * second
-      val hour = 60 * minute
-      val day = 24 * hour
-
-      return when {
-        diff < minute -> "just now"
-        diff < 2 * minute -> "one min ago"
-        diff < 60 * minute -> "${diff / minute} min ago"
-        diff < 2 * hour -> "1 hr ago"
-        diff < 24 * hour -> "${diff / hour} hr ago"
-        diff < 2 * day -> "yesterday"
-        else -> "${diff / day} days ago"
-      }
-    }
-
   }
 
 
