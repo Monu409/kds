@@ -39,6 +39,7 @@ import kotlin.collections.ArrayList
 
 class SettingFragment : AppCompatActivity() {
   private var order_display_grp: RadioGroup? = null
+  private var rowCountGroup: RadioGroup? = null
   private var order_cooking_timer_grp: RadioGroup? = null
   private var robot_delivery_grp: RadioGroup? = null
   private var printing_grp: RadioGroup? = null
@@ -57,6 +58,7 @@ class SettingFragment : AppCompatActivity() {
     setContentView(R.layout.setting_activity)
     apiServices = RetroClient.getApiService()!!
     order_display_grp = findViewById(R.id.order_display_grp)
+    rowCountGroup = findViewById(R.id.row_count_group)
     routSpin = findViewById(R.id.route_spnr)
     order_cooking_timer_grp = findViewById(R.id.order_cooking_timer_grp)
     robot_delivery_grp = findViewById(R.id.robot_delivery_grp)
@@ -149,6 +151,20 @@ class SettingFragment : AppCompatActivity() {
         }
       }
     }
+
+      rowCountGroup!!.setOnCheckedChangeListener {radioGroup, i->
+          when(i){
+              R.id.row_count_1 -> {
+                  SessionManager.setRowCount(this, 1)
+              }
+              R.id.row_count_2 -> {
+                  SessionManager.setRowCount(this, 2)
+              }
+              R.id.row_count_3 -> {
+                  SessionManager.setRowCount(this, 3)
+              }
+          }
+      }
 
 
 

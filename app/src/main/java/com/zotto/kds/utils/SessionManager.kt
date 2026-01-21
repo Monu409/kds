@@ -38,6 +38,8 @@ class SessionManager {
     private val ROUTING_DEVICE = "routing_device"
     private val SELECTED_RULE_PROD = "selected_rule_prod"
 
+    private val ORDER_ROW_COUNT = "order_row_count"
+
     fun getToken(context: Context?): String? {
       return getDefaultPref(context!!)!!.getString(TOKEN, "")
     }
@@ -227,6 +229,16 @@ class SessionManager {
       editor.putBoolean(ISALLORDER, isonlineorder)
       editor.commit()
     }
+
+      fun getRowCount(context: Context): Int {
+          return getDefaultPref(context!!)!!.getInt(ORDER_ROW_COUNT, 0)!!
+      }
+
+      fun setRowCount(context: Context, isonlineorder: Int) {
+          val editor: SharedPreferences.Editor = getDefaultPref(context!!)!!.edit()
+          editor.putInt(ORDER_ROW_COUNT, isonlineorder)
+          editor.commit()
+      }
 
     fun isOnlineOrder(context: Context): Boolean {
       return getDefaultPref(context!!)!!.getBoolean(ISONLINERDER, false)!!

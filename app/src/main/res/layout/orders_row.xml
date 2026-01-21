@@ -22,18 +22,18 @@
             android:background="@drawable/rectangular_round_shape_pigeon_post">
 
             <TextView
-                android:id="@+id/table_name"
+                android:id="@+id/customer_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="Table 5"
+                android:drawableStart="@drawable/ic_person"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small"
+                android:text="testing"
+                android:textSize="@dimen/_8sdp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/table_number"
@@ -45,7 +45,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_small"
-                app:layout_constraintStart_toEndOf="@+id/table_name"
+                app:layout_constraintStart_toEndOf="@+id/customer_name"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/order_id" />
 
@@ -53,47 +53,49 @@
                 android:id="@+id/order_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="13dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="#1678"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/_8sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <RelativeLayout
                 android:id="@+id/relativeLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/athensGray"
-                app:layout_constraintTop_toBottomOf="@id/table_name">
+                app:layout_constraintTop_toBottomOf="@id/customer_name">
 
                 <TextView
-                    android:id="@+id/customer_name"
+                    android:id="@+id/table_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/ic_person"
-                    android:drawablePadding="2dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/colorEmperor"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Table 5"
+                    android:layout_marginEnd="10dp"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_size_small"
-                    android:layout_alignParentEnd="true" />
+                    android:layout_alignParentEnd="true"
+                     />
 
                 <TextView
                     android:id="@+id/preparing_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:drawableLeft="@drawable/ic_time"
-                    android:drawablePadding="2dp"
+                    android:drawableStart="@drawable/ic_time"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="12min ago"
+                    android:text="12 min ago"
                     android:textColor="@color/colorEmperor"
                     android:textSize="@dimen/text_size_small"
-                    android:layout_alignParentStart="true" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
             </RelativeLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

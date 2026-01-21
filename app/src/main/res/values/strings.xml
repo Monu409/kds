@@ -36,6 +36,7 @@
     <string name="cancel_txt">Cancel</string>
     <string name="logout_txt">Logout</string>
     <string name="order_display_txt">Order display</string>
+    <string name="order_row_count_text">Order Row Size</string>
     <string name="inshop_order_only_txt">In shop order only</string>
     <string name="online_order_only_txt">Online order only</string>
     <string name="all_txt">All</string>

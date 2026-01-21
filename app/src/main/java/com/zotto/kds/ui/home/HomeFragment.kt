@@ -164,29 +164,15 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
           } else {
             MainActivity.activeOrders!!.text = resources.getString(R.string.active_txt)
           }
-
+            var rowCount = SessionManager.getRowCount(requireContext())
+            if(rowCount==0){
+                rowCount = 1
+            }
           order_recycleview!!.apply {
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             orderAdapter = OrderAdapter(requireActivity()!!, this@HomeFragment)
-            order_recycleview!!.layoutManager = GridLayoutManager(context, 1,RecyclerView.VERTICAL, false)
-            order_recycleview!!.layoutManager =
-              GridLayoutManager(context, 1, RecyclerView.HORIZONTAL, false)
-//            val orderLayoutManager = StaggeredGridLayoutManager(
-//              0 ,
-//              LinearLayoutManager.HORIZONTAL
-//            ).apply {
-//              gapStrategy =
-//                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-//            }
-//            order_recycleview.apply {
-//              layoutManager = orderLayoutManager
-//              adapter = orderAdapter
-//              setHasFixedSize(false)
-//              itemAnimator = null
-//            }
-//            order_recycleview!!.setItemAnimator(DefaultItemAnimator())
-//            order_recycleview!!.setHasFixedSize(true)
+            order_recycleview!!.layoutManager = GridLayoutManager(context, rowCount, RecyclerView.HORIZONTAL, false)
           }
 
           if (it != null && it.size > 0 && !it.get(0)!!.order_status.equals("Ready")) {

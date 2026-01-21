@@ -51,6 +51,90 @@
                 android:layout_height="wrap_content">
 
                 <LinearLayout
+                    android:id="@+id/order_row_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:orientation="horizontal"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="130dp">
+
+                    <TextView
+                        android:layout_width="@dimen/_100sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/order_row_count_text"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RadioGroup
+                            android:id="@+id/row_count_group"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/row_count_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:backgroundTint="@color/white"
+                                android:buttonTint="@color/white"
+                                android:fontFamily="@font/roboto_regular"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:text="1"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <RadioButton
+                                android:id="@+id/row_count_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:backgroundTint="@color/white"
+                                android:buttonTint="@color/white"
+                                android:fontFamily="@font/roboto_regular"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:text="2"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10sdp" />
+
+                            <RadioButton
+                                android:id="@+id/row_count_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:backgroundTint="@color/white"
+                                android:buttonTint="@color/white"
+                                android:fontFamily="@font/roboto_regular"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:text="3"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_10sdp" />
+                        </RadioGroup>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_below="@+id/order_display_layout"
+                    android:background="@color/white" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
                     android:id="@+id/order_display_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
