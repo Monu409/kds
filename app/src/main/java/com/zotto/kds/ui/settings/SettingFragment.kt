@@ -1,6 +1,7 @@
 package com.zotto.kds.ui.settings
 
 import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -152,19 +153,30 @@ class SettingFragment : AppCompatActivity() {
       }
     }
 
-      rowCountGroup!!.setOnCheckedChangeListener {radioGroup, i->
-          when(i){
-              R.id.row_count_1 -> {
-                  SessionManager.setRowCount(this, 1)
-              }
-              R.id.row_count_2 -> {
-                  SessionManager.setRowCount(this, 2)
-              }
-              R.id.row_count_3 -> {
-                  SessionManager.setRowCount(this, 3)
-              }
-          }
-      }
+    // Restore saved row count value
+    when (SessionManager.getRowCount(this)) {
+        1 -> findViewById<RadioButton>(R.id.row_count_1).isChecked = true
+        2 -> findViewById<RadioButton>(R.id.row_count_2).isChecked = true
+        3 -> findViewById<RadioButton>(R.id.row_count_3).isChecked = true
+        else -> {
+            findViewById<RadioButton>(R.id.row_count_1).isChecked = true
+            SessionManager.setRowCount(this, 1) // Default to 1 and save it
+        }
+    }
+
+    rowCountGroup!!.setOnCheckedChangeListener { radioGroup, i ->
+        when (i) {
+            R.id.row_count_1 -> {
+                SessionManager.setRowCount(this, 1)
+            }
+            R.id.row_count_2 -> {
+                SessionManager.setRowCount(this, 2)
+            }
+            R.id.row_count_3 -> {
+                SessionManager.setRowCount(this, 3)
+            }
+        }
+    }
 
 
 
@@ -253,8 +265,10 @@ class SettingFragment : AppCompatActivity() {
     findViewById<AppCompatButton>(R.id.save_btn).setOnClickListener {
       if (findViewById<CheckBox>(R.id.dish_display).isChecked) {
         SessionManager.setDisplayDish(this, true)
+
       } else {
         SessionManager.setDisplayDish(this, false)
+//          restartApp(this)
       }
       if (findViewById<CheckBox>(R.id.pizza).isChecked) {
         SessionManager.setSelectedPizza(this, true)
@@ -302,6 +316,17 @@ class SettingFragment : AppCompatActivity() {
           { t -> onFailure(t) })
     )
   }
+
+    fun restartApp(context: Context) {
+        val packageManager = context.packageManager
+        val intent = packageManager.getLaunchIntentForPackage(context.packageName)
+        intent?.addFlags(
+            Intent.FLAG_ACTIVITY_NEW_TASK or
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK
+        )
+        context.startActivity(intent)
+        Runtime.getRuntime().exit(0)
+    }
 
   private fun onResponse(response: GenericResponse<List<DeviceTable>>) {
     var defaultItems: MutableList<String> = ArrayList()

@@ -33,9 +33,9 @@ class OrderBoundaryCallback(var homeRepository: HomeRepository) :
 
       jsonObj.put("restId", SessionManager.getRestaurantId(homeRepository.context))
       jsonObj.put("today", Utility.getCurrentDate())
-//      jsonObj.put("today", "2025-12-18")
+//      jsonObj.put("today", "2026-01-28")
       jsonObj.put("offSet", PAGE_SIZE)
-      jsonObj.put("pageLimit", FIRST_PAGE)
+      jsonObj.put("pageLimit", 50)
       //print parameter
       Log.e(
         "MY gson.JSON:  ",

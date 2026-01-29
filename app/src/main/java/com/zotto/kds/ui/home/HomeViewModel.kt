@@ -45,33 +45,20 @@ class HomeViewModel(var homeRepository: HomeRepository) : ViewModel() {
   }
 
   fun getAllOrderFromLocal(context: Context) {
-    Log.e(
-      "getProductsFromLocal=",
-      Singleton.ordertype
-    )
+    var testOrder: List<Order>? = homeRepository.orderDao.getAllOrder()
+    Log.e("all", ""+testOrder)
+    Log.e("getProductsFromLocal=", Singleton.ordertype)
     if (Singleton.ordertype.equals("active")) {
-      var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()!!.asReversed()
+      var allActiveOrder: List<Order>? = homeRepository.orderDao.getAllActiveOrderNew()
       val columnWiseList = toColumnWise(allActiveOrder!!, 3)
       if (!columnWiseList.isNullOrEmpty()) {
         Singleton.isactiveclicked = false
         var products: ArrayList<Product>? = ArrayList()
         for (order in columnWiseList) {
-//          var listProducts = Utility().convertJsonToList(context)
-//          for (product in order.products!!) {
-//            listProducts.forEach { (key, value) ->
-//              println("Key: $key, Values: $value")
-//              for (mV in value){
-//                if(product.product_id.equals(mV)){
-//                  products!!.add(product)
-//                }
-//              }
-//            }
-//          }
           products!!.addAll(order.products!!)
-//          }
-          Log.e("getProducts data=", "$products")
-          productListMutableLiveData!!.postValue(products)
         }
+        Log.e("getProducts data=", "$products")
+        productListMutableLiveData!!.postValue(products)
       } else if (columnWiseList != null && columnWiseList.isEmpty()) {
         productListMutableLiveData!!.postValue(emptyList())
       }

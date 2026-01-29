@@ -197,10 +197,18 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
       return format.parse(dateTime)?.time ?: 0L
     }
 
-      fun getTimeAgo(timeMillis: Long): String {
+      fun getTimeAgo(timeMillisInput: Long): String {
           val now = System.currentTimeMillis()
+
+          // 🔥 Android 14 fix: convert seconds → millis if needed
+          val timeMillis = if (timeMillisInput < 1_000_000_000_000L) {
+              timeMillisInput * 1000
+          } else {
+              timeMillisInput
+          }
+
           if (timeMillis > now || timeMillis <= 0) {
-              return "0min"
+              return "0 min"
           }
 
           val diff = now - timeMillis
@@ -214,16 +222,13 @@ class OrderAdapter(var context: Context, var orderOnClickListner: OrderOnClickLi
           val minutes = (diff % hour) / minute
 
           return when {
-              days > 0 -> {
-                  if (hours > 0) "${days}d ${hours}h" else "${days}d"
-              }
-              hours > 0 -> {
-                  if (minutes > 0) "${hours}h ${minutes}m" else "${hours}h"
-              }
+              days > 0 -> if (hours > 0) "${days}d ${hours}h" else "${days}d"
+              hours > 0 -> if (minutes > 0) "${hours}h ${minutes}m" else "${hours}h"
               minutes > 0 -> "${minutes}m"
               else -> "0m"
           }
       }
+
   }
 
 
