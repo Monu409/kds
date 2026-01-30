@@ -23,6 +23,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.flexbox.FlexDirection
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
+import com.google.android.flexbox.JustifyContent
 import com.zotto.kds.*
 import com.zotto.kds.adapter.CompletedOrderAdapter
 import com.zotto.kds.adapter.OrderAdapter
@@ -138,12 +142,14 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
 //    Toast.makeText(requireActivity(), "margin_standard: $marginStandard pixels", Toast.LENGTH_LONG).show()
 
 
-    val mGridLayoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-//    val mGridLayoutManager = GridLayoutManager(context, 3, RecyclerView.HORIZONTAL, false)
-//    val mGridLayoutManager = StaggeredGridLayoutManager(2 , LinearLayoutManager.HORIZONTAL)
+    val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
+        flexDirection = FlexDirection.ROW
+        flexWrap = FlexWrap.WRAP
+        justifyContent = JustifyContent.FLEX_START
+    }
 
     order_recycleview = binding!!.orderRecycleview
-    order_recycleview!!.layoutManager = mGridLayoutManager
+    order_recycleview!!.layoutManager = flexboxLayoutManager
     order_recycleview!!.setHasFixedSize(true)
     order_recycleview!!.adapter = orderAdapter
 
@@ -172,25 +178,11 @@ class HomeFragment : Fragment(), OrderAdapter.OrderOnClickListner,
             order_recycleview!!.layoutManager = null
             orderAdapter = null
             orderAdapter = OrderAdapter(requireActivity()!!, this@HomeFragment)
-//            order_recycleview!!.layoutManager =
-//                GridLayoutManager(context, 1,RecyclerView.VERTICAL, false)
-            order_recycleview!!.layoutManager =
-              GridLayoutManager(context, rowCount, RecyclerView.VERTICAL, false)
-//            val orderLayoutManager = StaggeredGridLayoutManager(
-//              0 ,
-//              LinearLayoutManager.HORIZONTAL
-//            ).apply {
-//              gapStrategy =
-//                StaggeredGridLayoutManager.GAP_HANDLING_MOVE_ITEMS_BETWEEN_SPANS
-//            }
-//            order_recycleview.apply {
-//              layoutManager = orderLayoutManager
-//              adapter = orderAdapter
-//              setHasFixedSize(false)
-//              itemAnimator = null
-//            }
-//            order_recycleview!!.setItemAnimator(DefaultItemAnimator())
-//            order_recycleview!!.setHasFixedSize(true)
+            order_recycleview!!.layoutManager = FlexboxLayoutManager(context).apply {
+                flexDirection = FlexDirection.COLUMN
+                flexWrap = FlexWrap.WRAP
+                justifyContent = JustifyContent.FLEX_START
+            }
           }
 
           if (it != null && it.size > 0 && !it.get(0)!!.order_status.equals("Ready")) {
